@@ -77,11 +77,11 @@ module.exports = {
 			expect(ex.derp).toBeType('function');
 		});
 
-        it('should require methods for Declares', function(expect) {
+        /*it('should require methods for Declares', function(expect) {
         
             
         
-        });
+        });*/
 		
 		it('should extend static properties', function(expect) {
 			var Example = new Class();
