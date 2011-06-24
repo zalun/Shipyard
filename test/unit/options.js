@@ -1,5 +1,5 @@
 var Class = require('../../lib/class'),
-	Options = require('../../lib/class/options');
+	Options = require('../../lib/class/Options');
 
 module.exports = {
 	
