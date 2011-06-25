@@ -1,12 +1,16 @@
 Shipyard
 ===========
 
-A Javascript MVC application framework. For when you have a full-on application sitting on a web page. So much is going on, you should be able to focus on making the application working, not worrying about XmlHttpRequests and the DOM.
+A Javascript [MVC][mvc] application framework. For when you have a full-on application sitting on a web page. So much is going on, you should be able to focus on making the application working, not worrying about XmlHttpRequests and the DOM.
 
 What Shipyard is
 --------------
 
 An application framework that covers all the common things any JavaScript application would need to deal with: interacting with a server, storing data, rendering said data in the browser, and responding to user actions. An application built on Shipyard should only have to write that pulls all those things together.
+
+If you're application is going to have 1000 lines of JavaScript, would you rather write all those yourself, or have 900 of them be in a framework that is tested and used by others?
+
+When starting a web application, you would reach for Django, or CakePHP, or Rails; never would you decide to use just he language itself. Why shouldn't you do the same when the target language is JavaScript?
 
 Goals
 -----
@@ -15,6 +19,7 @@ Goals
 
 1. Be able to declare dependencies inside the code, and not be bothered with managing them during development or deployment.
 2. Be easily testable, using a node test runner.
+3. Not reliant on any other language. Build scripts will use JavaScript. The End.
 
 ### Model Goals
 
@@ -103,5 +108,5 @@ require modules. require will load the modules automatically during development,
 
 When a push is needed, [DryIce][di] can be use to compile the whole project into a single compressed file.
 
-
+[mvc]: http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 [di]: https://github.com/mozilla/dryice
