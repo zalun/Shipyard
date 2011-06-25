@@ -54,6 +54,21 @@ module.exports = {
             expect(u.get('username')).toBe(name);
 
         });
+
+        it('should fire a propertyChange event when data changes', function(expect) {
+        
+            var u = new this.User();
+
+            var nameChange = false;
+
+            u.addEvent('propertyChange', function(key, newVal, oldVal) {
+                if (key == 'username') nameChange = true;
+            });
+
+            u.set('username', 'jenn');
+            expect(nameChange).toBe(true);
+
+        });
 		
 	},
 	
