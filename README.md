@@ -108,5 +108,13 @@ require modules. require will load the modules automatically during development,
 
 When a push is needed, [DryIce][di] can be use to compile the whole project into a single compressed file.
 
+Credit
+------
+
+Major credit goes to [MooTools][moo], for much of the core of Shipyard is __heavily__ inspired by it.
+While it has mostly been modified slightly to fit better into a Module setting, 
+huge thanks to MooTools.
+
 [mvc]: http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 [di]: https://github.com/mozilla/dryice
+[moo]: http://mootools.net
