@@ -1,7 +1,6 @@
 var Class = require('../../lib/class'),
-	model = require('../../lib/model'),
-    Model = model.Model,
-	Field = model.Field;
+	Model = require('../../lib/model/Model'),
+	Field = require('../../lib/model/fields/Field');
 
 module.exports = {
 	
@@ -70,18 +69,6 @@ module.exports = {
 
         });
 		
-	},
-	
-	'Field': function(it, setup) {
-		
-		it('should convert values to its type', function(expect) {
-			var field = new Field({ type: String });
-			
-			expect(field.get('hello')).toBe('hello');
-			expect(field.get(33)).toBe('33');
-			
-		});
-		
-	}
+	}	
 	
 };

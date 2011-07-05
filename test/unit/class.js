@@ -17,6 +17,12 @@ module.exports = {
 			var Example = new Class();
 			var ex = new Example();
 			expect(ex).toBeAnInstanceOf(Example);
+			
+			var Other = new Class(function constructor(){
+				this.ex = 'example';
+			});
+			var ot = new Other();
+			expect(ot).toBeAnInstanceOf(Other);
 		});
 		
 		it('should use its prototype', function(expect) {
