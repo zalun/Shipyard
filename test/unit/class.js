@@ -83,12 +83,28 @@ module.exports = {
 			expect(ex.derp).toBeType('function');
 		});
 
-        /*it('should require methods for Declares', function(expect) {
-        
-            
-        
-        });*/
+		it('should have an "implement" static method', function(expect) {
 		
+			var Example = new Class;
+			expect(Example.implement).toBeType('function');
+
+			Example.implement('a', function() {
+				return 'arm';
+			});
+
+			Example.implement({
+				'b': function() { return 'b'; },
+				'c': function(d) { return this.b() + d; }
+			});
+
+			var ex = new Example;
+
+			expect(ex.a()).toBe('arm');
+			expect(ex.c('ad')).toBe('bad');
+		
+		});
+
+
 		it('should extend static properties', function(expect) {
 			var Example = new Class();
 			Example.merp = '$merp';
