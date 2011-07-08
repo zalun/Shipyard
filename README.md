@@ -49,7 +49,7 @@ How to use
 
 Your application revolves around data, not the DOM. Models allow you to easily define rules, and setup methods to persist your data via various persistence schemas, such as to a server, or using localStorage.
 		
-		var Class = require('mootools/Class'),
+		var Class = require('shipyard/Class'),
 		    model = require('shipyard/model'),
 			store = require('shipyard/store');
 		
@@ -72,7 +72,7 @@ Your application revolves around data, not the DOM. Models allow you to easily d
 
 The browser just happens to be where you application resides, but manipulating the DOM is something you shouldn't have to think about. Shipyard provides an extensible view system that abstracts away the DOM elements and events, and lets you think in terms of UI elements instead.
 
-		var Class = require('mootools/Class'),
+		var Class = require('shipyard/Class'),
 		    ListView = require('shipyard/view/ListView');
 			
 		var RecipesView = module.exports = new Class({
@@ -85,7 +85,7 @@ The browser just happens to be where you application resides, but manipulating t
 
 Controllers build the views, pass them data from the models, and then interpret events in order to modify the models back again.
 
-		var Class = require('mootools/Class'),
+		var Class = require('shipyard/Class'),
 		    ListController = require('shipyard/controller/ListController'),
 			RecipeView = require('../view/RecipeView'),
 			Recipe = require('../model/Recipe');
