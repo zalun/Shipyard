@@ -15,5 +15,18 @@ module.exports = {
                 .toBe('<p>hello</p>');
 
         });
+
+		it('should be able to render sub-templates', function(expect) {
+			
+			var template = new EJS;
+			template.setTemplate('<p><%=template(sub, { data: data})%></p>');
+			
+			var sub = new EJS;
+			sub.setTemplate('<em><%=data%></em>');
+
+			var output = template.render({ sub: sub, data: 'bonk' });
+
+			expect(output).toBe('<p><em>bonk</em></p>');
+		});
     }
 };
