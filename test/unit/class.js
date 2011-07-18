@@ -34,6 +34,20 @@ module.exports = {
 			expect(ex.derp).toBeType('function');
 			expect(ex.derp).toBe(Example.prototype.derp);
 		});
+
+		it('should clone objects/arrays from prototype', function(expect) {
+			var Example = new Class({
+				list: []
+			});
+			
+			var ex1 = new Example,
+				ex2 = new Example;
+
+			ex1.list.push('test');
+
+			expect(ex1.list.length).toBe(1);
+			expect(ex2.list.length).toBe(0);
+		});
 		
 		it('should be able to extend other classes', function(expect) {
 			var Example = new Class({
