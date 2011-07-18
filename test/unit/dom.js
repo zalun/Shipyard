@@ -13,7 +13,7 @@ module.exports = {
     '$': function(it, setup) {
         
         it('should find an Element by id', function(expect) {
-            var el = dom.document.createElement('p');
+            var el = dom.Document.createElement('p');
             el.setAttribute('id', 'derp');
             var body = dom.$$('body')[0];
             body.appendChild(el);
@@ -23,17 +23,6 @@ module.exports = {
             //el.destroy();
         });
 
-        it('should call toElement if passed an object', function(expect) {
-            var el = new dom.Element('p');
-            
-            var obj = {
-                toElement: function() {
-                    return el;
-                }
-            };
-
-            expect(dom.$(obj)).toBe(el);
-        });
     },
     
     '$$': function(it, setup) {
