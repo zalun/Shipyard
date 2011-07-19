@@ -1,5 +1,6 @@
 var View = require('../../lib/view/View'),
-	Container = require('../../lib/view/Container');
+	Container = require('../../lib/view/Container'),
+	ListView = require('../../lib/view/ListView');
 
 module.exports = {
 	
@@ -50,6 +51,16 @@ module.exports = {
 			expect(c.render()).toBe('<div><div>contained<span>test</span></div></div>');
 		});
 
+	},
+
+	'ListView': function(it, setup) {
+		it('should know when its empty', function(expect) {
+			var v = new ListView;
+			expect(v.isEmpty()).toBe(true);
+
+			var v2 = new ListView({ data: [1] });
+			expect(v2.isEmpty()).toBe(false);
+		});
 	}
 
 };
