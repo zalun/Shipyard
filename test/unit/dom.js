@@ -8,6 +8,14 @@ module.exports = {
 			expect(el).toBeAnInstanceOf(dom.Element);
 			expect(el.get('tag')).toBe('p');
 		});
+
+		it('should be able to getParent', function(expect) {
+			var el = new dom.Element('p'),
+				el2 = new dom.Element('span');
+
+			el.grab(el2);
+			expect(el2.getParent()).toBe(el);
+		});
 	},
 
 	'Element.serialize': function(it, setup) {
