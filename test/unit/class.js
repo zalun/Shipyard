@@ -1,4 +1,5 @@
-var Class = require('../../lib/class');
+var Class = require('../../lib/class'),
+	Spy = require('../testigo/lib/spy').Spy;
 
 module.exports = {
 	
@@ -63,6 +64,18 @@ module.exports = {
 			expect(ex).toBeAnInstanceOf(Example);
 			expect(ex).toBeAnInstanceOf(BetterExample);
 			expect(ex.derp).toBeType('function');
+		});
+
+		it('should not call extended class\' initialize method at Extends', function(expect) {
+			var fn = new Spy;
+			var Ex = new Class({
+				initialize: fn
+			});
+			var Ex2 = new Class({
+				Extends: Ex
+			});
+
+			expect(fn.getCallCount()).toBe(0);
 		});
 		
 		it('should be able to call a parent method when extended', function(expect) {
