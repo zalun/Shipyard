@@ -1,0 +1,16 @@
+body { font-family:Helvetica, Arial, sans-serif; max-width:800px; margin:0 auto; }
+
+	 form { overflow:hidden; padding:10px 0; }
+			 form input { border:1px solid #ccc; display:block; float:left; font-size:110%; height:24px; padding:5px 0; width:80%%; }
+				 form input:focus { background:#ffe; border-color:#777; outline:none; }
+		 form button { border:1px solid #aaa; cursor:pointer; background:#eee; display:block; float:right; height:36px; width:18%; -webkit-appearance:none; }
+			 form button:hover,  form button:focus { border-color:#777; }
+			 form button:active { background:#f5f5f5; border-color:#000; }
+
+	 ul { padding:0; }
+	 li { list-style:none; margin:10px 0; padding:10px; border:1px solid #ccc; }
+	 li:hover { background-color:#ffe; }
+	
+		 li .title { font-weight:bold; }
+		 li .delete { color:#f00; float:right; }
+
