@@ -2,6 +2,8 @@
 <html>
 <head>
 	<script type="text/javascript" src="../scripts/require.js"></script>
+</head>
+<body>
 	<script type="text/javascript">
 		window.runTests = function(){};
 		var Testigo = require('./testigo').Testigo,
@@ -26,9 +28,5 @@
         require('./browser').setup(Tests);
 		window.runTests = function(){ Tests.run(); }
 	</script>
-</head>
-
-<body>
-	
 </body>
 </html>

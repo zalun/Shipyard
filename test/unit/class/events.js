@@ -1,6 +1,6 @@
-var Class = require('../../lib/class'),
-	Events = require('../../lib/class/Events'),
-	Spy = require('../testigo/lib/spy').Spy;
+var Class = require('../../../lib/class'),
+	Events = require('../../../lib/class/Events'),
+	Spy = require('../../testigo/lib/spy').Spy;
 
 module.exports = {
 	'Events': function(it, setup) {

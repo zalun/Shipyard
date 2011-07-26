@@ -1,17 +1,8 @@
-var Class = require('../../lib/class'),
-	Spy = require('../testigo/lib/spy').Spy;
+var Class = require('../../../lib/class'),
+	Spy = require('../../testigo/lib/spy').Spy;
 
 module.exports = {
-	
-	/*'a new Class': function(it, setup) {
-		
-		it('should be an instanceof Class', function(expect) {
-			var Example = new Class();
-			expect(Example).toBeAnInstanceOf(Class);
-		});
-		
-	},*/
-	
+
 	'Class instance': function(it, setup) {
 		
 		it('should be an instanceof its Class', function(expect) {
@@ -24,6 +15,16 @@ module.exports = {
 			});
 			var ot = new Other();
 			expect(ot).toBeAnInstanceOf(Other);
+		});
+
+		it('should be an instance Class', function(expect) {
+			var Ex = new Class;
+			var ex = new Ex;
+			expect(ex).toBeAnInstanceOf(Class);
+
+			var It = new Class({ Extends: Ex });
+			var it = new It;
+			expect(it).toBeAnInstanceOf(Class);
 		});
 		
 		it('should use its prototype', function(expect) {
@@ -148,6 +149,31 @@ module.exports = {
 			expect(Example.derp()).toBe(Example.merp);
 			
 			var ex = new BetterExample();
+		});
+
+		it('should have local Mutators', function(expect) {
+			var Interface = new Class;
+			Interface.Mutators.Local = function(val) { 
+				this.implement('isLocal', function() { 
+					return !!val; 
+				}); 
+			};
+
+			var Ex = new Class({
+				Implements: Interface,
+				Local: true
+			});
+
+			var ex = new Ex;
+			expect(ex.isLocal).toBeTruthy();
+			expect(ex.isLocal()).toBe(true);
+
+			var Be = new Class({
+				Local: false
+			});
+			var b = new Be;
+			expect(b.isLocal).toBeUndefined();
+
 		});
 		
 	}

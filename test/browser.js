@@ -1,4 +1,4 @@
-var caseNames = ['class', 'dom', 'events', 'field', 'model', 'options', 'template',
+var caseNames = ['class', 'dom', 'field', 'model', 'template',
 	'utils-object', 'view'];
 
 var cases = caseNames.map(function(name) {
