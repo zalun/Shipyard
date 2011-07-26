@@ -27,6 +27,20 @@ module.exports = {
         
         });
 
+		it('should throw an Error if getting a non-existing field', function(expect) {
+			var u = new this.User();
+
+			var err;
+
+			try {
+				u.get('asdfasfd');
+			} catch (ex) {
+				err = ex;	
+			}
+
+			expect(err).toBeAnInstanceOf(Error);
+		});
+
         it('should be able to take a hash to set data', function(expect) {
             
             var u = new this.User(),
