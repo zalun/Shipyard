@@ -128,7 +128,7 @@ module.exports = {
 		it('should find an Element by id', function(expect) {
 			var el = dom.document.createElement('p');
 			el.setAttribute('id', 'derp');
-			var body = dom.$$('body')[0];
+			var body = dom.document.body;
 			body.appendChild(el);
 			
 			expect(dom.$('derp')).toBe(el);
