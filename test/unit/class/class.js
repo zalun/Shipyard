@@ -37,6 +37,12 @@ module.exports = {
 			expect(ex.derp).toBe(Example.prototype.derp);
 		});
 
+		it('should have a constructor property pointing at its Class', function(expect) {
+			var Ex = new Class;
+			var ex = new Ex;
+			expect(ex.constructor).toBe(Ex);
+		});
+
 		it('should clone objects/arrays from prototype', function(expect) {
 			var Example = new Class({
 				list: []
@@ -95,6 +101,24 @@ module.exports = {
 			
 			var ex = new BetterExample();
 			expect(ex.derp()).toBe('derp');
+		});
+
+		it('should merge objects when extended', function(expect) {
+			var A = new Class({
+				a: { one: 1 }
+			});
+			var B = new Class({
+				Extends: A,
+				a: { two: 2 }
+			});
+
+			var b = new B;
+			expect(b.a.two).toBe(2);
+			expect(b.a.one).toBe(1);
+
+			var a = new A;
+			expect(a.a.one).toBe(1);
+			expect(a.a.two).toBeUndefined();
 		});
 		
 		it('should implement mixins', function(expect) {
