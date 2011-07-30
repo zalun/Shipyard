@@ -12,9 +12,9 @@ module.exports = {
 		it('should render attributes', function(expect) {
 			var v = new View;
 			delete v.attributes.id;
-			v.attributes['data-test'] = 'hello';
+			v.attributes['data-test'] = 'hey "dude"';
 
-			expect(v.render()).toBe('<span data-test="hello"></span>');
+			expect(v.render()).toBe('<span data-test="hey &quot;dude&quot;"></span>');
 		});
 
 	}

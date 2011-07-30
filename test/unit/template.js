@@ -6,20 +6,19 @@ module.exports = {
 
 	'EJS': function(it, setup) {
 		it('should be able to echo data', function(expect) {
-			var template = new EJS();
+			var template = new EJS;
 			var text = '<p><%= data %></p>';
 			template.setTemplate(text);
 			template.compile();
 
 			expect(template.render({ data: 'hello'}))
 				.toBe('<p>hello</p>');
-
 		});
 
 		it('should be able to render sub-templates', function(expect) {
 			
 			var template = new EJS;
-			template.setTemplate('<p><%=template(sub, { data: data})%></p>');
+			template.setTemplate('<p><%-template(sub, { data: data})%></p>');
 			
 			var sub = new EJS;
 			sub.setTemplate('<em><%=data%></em>');
