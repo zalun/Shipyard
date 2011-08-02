@@ -71,6 +71,7 @@ module.exports = {
 			expect(ex).toBeAnInstanceOf(Example);
 			expect(ex).toBeAnInstanceOf(BetterExample);
 			expect(ex.derp).toBeType('function');
+			expect(ex.constructor).toBe(BetterExample);
 		});
 
 		it('should not call extended class\' initialize method at Extends', function(expect) {
@@ -133,6 +134,7 @@ module.exports = {
 			
 			expect(ex).not.toBeAnInstanceOf(Mixin);
 			expect(ex.derp).toBeType('function');
+			expect(ex.constructor).toBe(Example);
 		});
 
 		it('should have an "implement" static method', function(expect) {
