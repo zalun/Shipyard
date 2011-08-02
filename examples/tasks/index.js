@@ -20,4 +20,8 @@ var list = new ListView({
 	empty: 'Add a task with the above form.'
 }).attach();
 
-exports.list = list;
+Task.find({}, {}, function(tasks) { 
+	tasks.forEach(function(t) {
+		list.addItem(t);
+	})
+});
