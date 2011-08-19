@@ -74,6 +74,21 @@ module.exports = {
             expect(items).toBeLike({b: 2});
         });
                 
-    }
+    },
+
+	'object.toQueryString': function(it, setup) {
+		it('should return a query string', function(expect) {
+			var myObject = {apple: "red", lemon: "yellow"};
+			expect(object.toQueryString(myObject)).toEqual('apple=red&lemon=yellow');
+
+			var myObject2 = {apple: ['red', 'yellow'], lemon: ['green', 'yellow']};
+			expect(object.toQueryString(myObject2))
+				.toEqual('apple[0]=red&apple[1]=yellow&lemon[0]=green&lemon[1]=yellow');
+
+			var myObject3 = {fruits: {apple: ['red', 'yellow'], lemon: ['green', 'yellow']}};
+			expect(object.toQueryString(myObject3))
+				.toEqual('fruits[apple][0]=red&fruits[apple][1]=yellow&fruits[lemon][0]=green&fruits[lemon][1]=yellow');
+		});
+	}
     
 };
