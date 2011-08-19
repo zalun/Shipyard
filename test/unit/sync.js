@@ -34,7 +34,7 @@ module.exports = {
 			MockSyncable.addSync('bar', bar);
 			MockSyncable.addSync('baz', new MockSync);
 
-			MockSyncable.find({}, {using: 'bar'});
+			MockSyncable.find({using: 'bar'});
 
 			expect(foo.read.getCallCount()).toBe(0);
 			expect(bar.read.getCallCount()).toBe(1);
@@ -72,11 +72,25 @@ module.exports = {
 			});
 
 			S.find();
-			S.find(null, {using: 'bar'});
+			S.find({using: 'bar'});
 
 			expect(foo.read.getCallCount()).toBe(1);
 			expect(bar.read.getCallCount()).toBe(1);
 
+		});
+
+		it('should fire Class events from instances', function(expect) {
+			var classSpy = new Spy,
+				instSpy = new Spy;
+			MockSyncable.addEvent('foo', classSpy);
+
+			var s = new MockSyncable;
+			s.addEvent('foo', instSpy);
+
+			s.fireEvent('foo');
+			
+			expect(instSpy.getCallCount()).toBe(1);
+			expect(classSpy.getCallCount()).toBe(1);
 		});
 	}
 };
