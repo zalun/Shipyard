@@ -1,7 +1,7 @@
 var Task = require('./models/Task'),
 	ListView = require('../../lib/view/ListView'),
 	FormView = require('../../lib/view/FormView'),
-	ButtonView = require('../../lib/view/ButtonView');
+	ButtonView = require('../../lib/view/ButtonView'),
 	TextFieldView = require('../../lib/view/TextFieldView');
 
 
@@ -9,7 +9,6 @@ var form = new FormView({
 	onSubmit: function(data) {
 		var task = new Task(data);
 		task.save();
-		list.addItem(task);
 	}
 })
 	.addView(new TextFieldView({ name: 'title', placeholder: 'Task title...' }))
@@ -20,8 +19,15 @@ var list = new ListView({
 	empty: 'Add a task with the above form.'
 }).attach();
 
-Task.find({}, {}, function(tasks) { 
+Task.find({ callback: function(tasks) { 
 	tasks.forEach(function(t) {
 		list.addItem(t);
-	})
+	});
+}});
+
+Task.addEvent('save', function(task, isNew) {
+	if (isNew) list.addItem(task);
+});
+Task.addEvent('destroy', function(task) {
+	list.removeItem(task);
 });
