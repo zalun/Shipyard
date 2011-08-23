@@ -1,6 +1,6 @@
-var Class = require('../../lib/class'),
-	Model = require('../../lib/model/Model'),
-	Field = require('../../lib/model/fields/Field');
+var Class = require('../../lib/shipyard/class'),
+	Model = require('../../lib/shipyard/model/Model'),
+	Field = require('../../lib/shipyard/model/fields/Field');
 
 module.exports = {
 	

@@ -1,5 +1,5 @@
-var Container = require('../../../lib/view/Container')
-	View = require('../../../lib/view/View');
+var Container = require('../../../lib/shipyard/view/Container')
+	View = require('../../../lib/shipyard/view/View');
 
 module.exports = {
 

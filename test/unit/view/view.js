@@ -1,4 +1,4 @@
-var View = require('../../../lib/view/View');
+var View = require('../../../lib/shipyard/view/View');
 
 module.exports = {
 	

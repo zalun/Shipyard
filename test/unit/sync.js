@@ -1,6 +1,6 @@
-var Class = require('../../lib/class'),
-	Sync = require('../../lib/sync/Sync'),
-	Syncable = require('../../lib/sync/Syncable'),
+var Class = require('../../lib/shipyard/class'),
+	Sync = require('../../lib/shipyard/sync/Sync'),
+	Syncable = require('../../lib/shipyard/sync/Syncable'),
 	Spy = require('../testigo/lib/spy').Spy;
 
 module.exports = {

@@ -1,4 +1,4 @@
-var dom = require('../../lib/dom');
+var dom = require('../../lib/shipyard/dom');
 
 module.exports = {
 	

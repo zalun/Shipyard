@@ -1,4 +1,4 @@
-var EJS = require('../../lib/template/ejs/Template');
+var EJS = require('../../lib/shipyard/template/ejs/Template');
 
 module.exports = {
 	'Template': function(it, setup) {

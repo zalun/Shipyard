@@ -1,4 +1,4 @@
-var object = require('../../lib/utils/object');
+var object = require('../../lib/shipyard/utils/object');
 
 module.exports = {
     

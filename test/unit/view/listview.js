@@ -1,4 +1,4 @@
-var ListView = require('../../../lib/view/ListView');
+var ListView = require('../../../lib/shipyard/view/ListView');
 
 module.exports = {
 	

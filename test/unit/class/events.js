@@ -1,5 +1,5 @@
-var Class = require('../../../lib/class'),
-	Events = require('../../../lib/class/Events'),
+var Class = require('../../../lib/shipyard/class'),
+	Events = require('../../../lib/shipyard/class/Events'),
 	Spy = require('../../testigo/lib/spy').Spy;
 
 module.exports = {

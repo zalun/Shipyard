@@ -1,4 +1,4 @@
-var Class = require('../../../lib/class'),
+var Class = require('../../../lib/shipyard/class'),
 	Spy = require('../../testigo/lib/spy').Spy;
 
 module.exports = {

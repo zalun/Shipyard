@@ -1,4 +1,4 @@
-var Request = require('../../lib/http/Request'),
+var Request = require('../../lib/shipyard/http/Request'),
 	Spy = require('../testigo/lib/spy').Spy;
 
 

@@ -3,7 +3,7 @@ var http = require('http'),
 	url = require('url'),
 	path = require('path');
 
-var object = require('../lib/utils/object');
+var object = require('../lib/shipyard/utils/object');
 
 var ROOT = path.join(__dirname, '../'),
 	HEADERS = { 'Content-Type': 'text/plain' };
