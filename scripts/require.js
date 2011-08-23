@@ -8,13 +8,16 @@ var XHR = function(){
 
 var nonce = + new Date();
 var load = function(path){
+	if (path in load._cache) return load._cache[path];
 	var result = false;
 	var xhr = XHR();
 	xhr.open('GET', path + '?d=' + nonce, false);
 	xhr.send(null);
 	if (xhr.status >= 200 && xhr.status < 300) result = xhr.responseText;
-	return result;
+
+	return load._cache[path] = result;
 };
+load._cache = {};
 
 var compile = function(module, contents) {
 	module.exports = {};
@@ -71,7 +74,7 @@ var tryExtensions = function(path, exts) {
 	return false;
 };
 
-var require = function req(id, path){
+var require = function shipyard_require(id, path){
 	if (path) require.paths.unshift(path);
 	var contents = false,
 		filename,
@@ -80,34 +83,44 @@ var require = function req(id, path){
 		paths = (id[0] === '/') ? [''] : require.paths,
 		trailingSlash = (id.slice(-1) === '/'),
 		module;
-	var exts = Object.keys(require.extensions);
-	for (var i = 0, y = paths.length; (i < y); i++) {
-		base = normalize(id, paths[i]);
-		module = MODULES[base];
-		if(module)  break;
-		
-		//1. tryFile
-		//2. tryExtensions
-		//3. tryExtensions with index
-		if (!trailingSlash) {
-			filename = tryFile(base);
+	
+	if (require.original) {
+		var orig = require.original(id);
+		if (orig) {
+			module = { filename: id, dirname: dirname(id), exports: orig };
+			MODULES[id] = module;
+		}
+	} 
+	if (!module) {
+		var exts = Object.keys(require.extensions);
+		for (var i = 0, y = paths.length; (i < y); i++) {
+			base = normalize(id, paths[i]);
+			module = MODULES[base];
+			if(module)  break;
+			
+			//1. tryFile
+			//2. tryExtensions
+			//3. tryExtensions with index
+			if (!trailingSlash) {
+				filename = tryFile(base);
+
+				if (!filename) {
+					filename = tryExtensions(base, exts);
+				}
+			}
 
 			if (!filename) {
-				filename = tryExtensions(base, exts);
+				filename = tryExtensions(normalize('index', base), exts);
 			}
-		}
 
-		if (!filename) {
-			filename = tryExtensions(normalize('index', base), exts);
-		}
-		
-		if (filename !== false) {
-			module = { filename: filename, dirname: dirname(filename) };
-			ext = extname(filename) || '.js';
-			if (!require.extensions[ext]) ext = '.js'
-			require.extensions[ext](module, filename);
-            MODULES[base] = module;
-			break;
+			if (filename !== false) {
+				module = { filename: filename, dirname: dirname(filename) };
+				ext = extname(filename) || '.js';
+				if (!require.extensions[ext]) ext = '.js'
+				require.extensions[ext](module, filename);
+				MODULES[base] = module;
+				break;
+			}
 		}
 	}
 	if (!module) throw new Error('Cannot find module "' + id + '"');
@@ -124,6 +137,10 @@ require.extensions = {
 require._load = load;
 require._compile = compile;
 require.paths = [window.location.pathname];
+
+
+if (window.require)
+	require.original = window.require;
 
 window.require = require;
 
