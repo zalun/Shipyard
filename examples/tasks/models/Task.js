@@ -1,7 +1,7 @@
-var Class = require('../../lib/shipyard/class'),
-	model = require('../../lib/shipyard/model'),
-	Syncable = require('../../lib/shipyard/sync/Syncable'),
-	BrowserSync = require('../../lib/shipyard/sync/Browser');
+var Class = require('shipyard/class'),
+	model = require('shipyard/model'),
+	Syncable = require('shipyard/sync/Syncable'),
+	BrowserSync = require('shipyard/sync/Browser');
 
 var Task = module.exports = new Class({
 	

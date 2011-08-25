@@ -1,8 +1,8 @@
 var Task = require('./models/Task'),
-	ListView = require('../../lib/shipyard/view/ListView'),
-	FormView = require('../../lib/shipyard/view/FormView'),
-	ButtonView = require('../../lib/shipyard/view/ButtonView'),
-	TextFieldView = require('../../lib/shipyard/view/TextFieldView');
+	ListView = require('shipyard/view/ListView'),
+	FormView = require('shipyard/view/FormView'),
+	ButtonView = require('shipyard/view/ButtonView'),
+	TextFieldView = require('shipyard/view/TextFieldView');
 
 
 var form = new FormView({

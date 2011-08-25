@@ -27,7 +27,7 @@ var compile = function(module, contents) {
 	require.paths.shift();
 };
 
-var normalize = function(path, base){
+var normalize = function(base, path){
 	if (path[0] == '/') base = '';
 	path = path.split('/').reverse();
 	base = base.split('/');
@@ -94,7 +94,7 @@ var require = function shipyard_require(id, path){
 	if (!module) {
 		var exts = Object.keys(require.extensions);
 		for (var i = 0, y = paths.length; (i < y); i++) {
-			base = normalize(id, paths[i]);
+			base = normalize(paths[i], id);
 			module = MODULES[base];
 			if(module)  break;
 			
@@ -110,7 +110,7 @@ var require = function shipyard_require(id, path){
 			}
 
 			if (!filename) {
-				filename = tryExtensions(normalize('index', base), exts);
+				filename = tryExtensions(normalize(base, 'index'), exts);
 			}
 
 			if (filename !== false) {
