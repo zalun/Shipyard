@@ -10,7 +10,7 @@ if (window.define) define.original = window.define;
 window.define = define;
 
 function require(module, callback) {
-	var payload = lookup(module);
+	var payload = lookup(module) || lookup(normalize(module, 'index'));
 	if (!payload && require.original)
 		return require.original.apply(window, arguments);
 	
@@ -24,7 +24,7 @@ window.require = require;
 
 function lookup(id) {
 	var payload = define.modules[id];
-	if (!module) return null;
+	if (!payload) return null;
 
 	if (typeof payload === 'function') {
 		var module = {
@@ -32,14 +32,16 @@ function lookup(id) {
 			id: id
 		}
 		var relativeRequire = function(name) {
-			if (name.charAt(0) == '.') name = normalize(id, name);
+			if (name.charAt(0) == '.') name = normalize(dirname(id), name);
 			return require.apply(window, arguments);
-		}
+		};
+		relativeRequire.paths = require.paths;
 		payload(relativeRequire, module.exports, module);
-		return define.modules[id] = module.exports;
+		define.modules[id] = module;
+		return module.exports;
+	} else {
+		return payload.exports || payload;
 	}
-
-	return payload;
 }
 
 function normalize(base, path){

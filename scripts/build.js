@@ -23,7 +23,7 @@ function wrapDefines(content, location) {
 	if (location.base) {
 		location = location.path;
 	}
-	location = location.replace(/index.js$/, '').replace(/\.js$/, '').replace(/\/$/, '');
+	location = location.replace(/(\.js|\/)$/, '');
 	return "define('"+ location +"', [], function(require, exports, module){\n" + content +"\n});\n";
 }
 wrapDefines.onRead = true;
