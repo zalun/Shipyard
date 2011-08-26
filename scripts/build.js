@@ -45,7 +45,7 @@ copy({
 
 copy({
 	source: [{
-		value: 'require("' + app +'");'
+		value: 'document.addEventListener("DOMContentLoaded", function() {require("' + app +'");}, false);'
 	}],
 	dest: build
 });
