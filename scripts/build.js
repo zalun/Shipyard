@@ -10,7 +10,8 @@ var project = copy.createCommonJsProject({
 	roots: [dir, shipyard]
 });
 
-var dest = path.join(__dirname, '../build/min.js');
+
+var dest = path.join(process.cwd(), process.argv[3] || './'+app+'.js');
 
 function filterNode(content, location) {
 	if (typeof content !== 'string') content = content.toString();
