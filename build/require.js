@@ -1,13 +1,16 @@
 (function() {
 
-function define(module, deps, payload) {
+function _define(module, deps, payload) {
 	define.modules[module] = payload;
 }
 
-define.modules = {};
+_define.modules = {};
+if (window.define) {
+	_define.original = window.define;
+	_define.modules = _define.original.modules;
+}
+window.define = _define;
 
-if (window.define) define.original = window.define;
-window.define = define;
 
 function require(module, callback) {
 	var payload = lookup(module) || lookup(normalize(module, 'index'));
@@ -19,7 +22,8 @@ function require(module, callback) {
 	return payload;
 }
 
-if (window.require) require.original = require;
+require.paths = [];
+if (window.require) require.original = window.require;
 window.require = require;
 
 function lookup(id) {
@@ -60,6 +64,12 @@ function normalize(base, path){
 		}
 	}
 	return base.join('/');
+};
+
+function dirname(filename) {
+    var parts = filename.split('/');
+    parts.pop(); //bye filename
+    return parts.join('/');
 };
 
 })();
