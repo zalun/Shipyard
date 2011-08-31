@@ -49,62 +49,103 @@ How to use
 
 Your application revolves around data, not the DOM. Models allow you to easily define rules, and setup methods to persist your data via various persistence schemas, such as to a server, or using localStorage.
 		
-		var Class = require('shipyard/Class'),
-		    model = require('shipyard/model'),
-			store = require('shipyard/store');
-		
-		var Recipe = module.exports = new Class({		
-				
-				Extends: model.Model,
+    var Class = require('shipyard/Class'),
+        model = require('shipyard/model'),
+        Syncable = require('shipyard/sync/Syncable'),
+        XHR = require('shipyard/sync/Server'),
+        localStorage = require('shipyard/sync/Browser');
+    
+    var Recipe = module.exports = new Class({		
+            
+            Extends: model.Model,
 
-				Implements: [store.XHR, store.localStorage],
-				
-				fields: {
-						id: model.Fields.AutoField(),
-						title: model.Fields.TextField({ length: 64, required: true}),
-						ingredients: model.Fields.TextField()
-				}
-				
-		});
-		
+            Implements: Syncable,
+
+            Sync: {
+                'default': {
+                    driver: XHR,
+                    route: '/api/recipes'
+                },
+                'local': {
+                    driver: localStorage,
+                    table: 'recipes'
+                }
+            },
+            
+            fields: {
+                    id: model.Fields.NumberField(),
+                    title: model.Fields.TextField({ length: 64, required: true}),
+                    ingredients: model.Fields.TextField()
+            },
+
+            toString: function() {
+                return this.get('title');    
+            }
+            
+    });
+
+And then use it like so:
+
+    var Recipe = require('./models/Recipe');
+    var rec = new Recipe({ title: 'Curry', ingredients: 'coconut' });
+    rec.save(); // saves using 'default' Sync.
+    rec.save({using: 'local'}); // or save to another Sync.
+
 
 ### Views
 
 The browser just happens to be where you application resides, but manipulating the DOM is something you shouldn't have to think about. Shipyard provides an extensible view system that abstracts away the DOM elements and events, and lets you think in terms of UI elements instead.
 
-		var Class = require('shipyard/Class'),
-		    ListView = require('shipyard/view/ListView');
-			
-		var RecipesView = module.exports = new Class({
-		
-				Extends: ListView
-				
-		})
+    var View = require('shipyard/view/View');
+
+    var recipe = new Recipe({ title: 'Cookies' });
+    var titleView = new View({
+        data: recipe
+    });
+    titleView.attach();
+
+Or, you can create your own views, extending them when you need
+something custom:
+
+    var Class = require('shipyard/Class'),
+        ListView = require('shipyard/view/ListView');
+
+    var RecipesView = module.exports = new Class({
+
+            Extends: ListView
+
+            //override getRenderOptions or something
+
+    });
+
+However, this should only be necessary for changing the inherent
+behavior of a View. Simply adding events to views does not require
+creating a new class.
 
 ### Controllers
 
 Controllers build the views, pass them data from the models, and then interpret events in order to modify the models back again.
 
-		var Class = require('shipyard/Class'),
-		    ListController = require('shipyard/controller/ListController'),
-			RecipeView = require('../view/RecipeView'),
-			Recipe = require('../model/Recipe');
-			
-		var RecipesController = modules.export = new Class({
-				
-				Extends: ListController,
-				
-				list: RecipeView,
-				
-				model: Recipe
-				
-		});
+    var Class = require('shipyard/Class'),
+        ListController = require('shipyard/controller/ListController'),
+        RecipeView = require('../view/RecipeView'),
+        Recipe = require('../model/Recipe');
+        
+    var RecipesController = modules.export = new Class({
+            
+            Extends: ListController,
+            
+            list: RecipeView,
+            
+            model: Recipe
+            
+    });
 
 
 Relies On
 --------
 
-require modules. require will load the modules automatically during development, to make development more sane.
+[CommonJS modules][cjs]. `require` will load the modules automatically during development, to make development more sane.
 
 When a push is needed, [DryIce][di] can be use to compile the whole project into a single compressed file.
 
@@ -117,4 +158,5 @@ huge thanks to MooTools.
 
 [mvc]: http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 [di]: https://github.com/mozilla/dryice
+[cjs]: http://wiki.commonjs.org/wiki/Modules/1.1
 [moo]: http://mootools.net
