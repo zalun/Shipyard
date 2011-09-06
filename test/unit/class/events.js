@@ -1,4 +1,4 @@
-var Class = require('../../../lib/shipyard/class'),
+var Class = require('../../../lib/shipyard/class/Class'),
 	Events = require('../../../lib/shipyard/class/Events'),
 	Spy = require('../../testigo/lib/spy').Spy;
 

@@ -1,5 +1,4 @@
-var Class = require('../../lib/shipyard/class'),
-    fields = require('../../lib/shipyard/model/fields');
+var fields = require('../../lib/shipyard/model/fields');
 	Field = fields.Field,
     BooleanField = fields.BooleanField,
     DateField = fields.DateField,

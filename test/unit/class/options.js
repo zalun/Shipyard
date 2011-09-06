@@ -1,4 +1,4 @@
-var Class = require('../../../lib/shipyard/class'),
+var Class = require('../../../lib/shipyard/class/Class'),
 	Options = require('../../../lib/shipyard/class/Options');
 
 module.exports = {

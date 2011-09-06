@@ -1,4 +1,4 @@
-var Class = require('../../lib/shipyard/class'),
+var Class = require('../../lib/shipyard/class/Class'),
 	Sync = require('../../lib/shipyard/sync/Sync'),
 	Syncable = require('../../lib/shipyard/sync/Syncable'),
 	Spy = require('../testigo/lib/spy').Spy;
