@@ -44,6 +44,17 @@ module.exports = {
 			expect(fn2.getCallCount()).toBe(2);
 		});
 
+        it('should return a Pointer when addEvent', function(expect) {
+            var fn = new Spy;
+            var ptr = this.E.addEvent('a', fn);
+
+            ptr.remove();
+
+            this.E.fireEvent('e');
+
+            expect(fn.getCallCount()).toBe(0);
+        });
+
 		it('should work with "onEventName"', function(expect) {
 			var fn = new Spy;
 			this.E.addEvent('onSpy', fn);
