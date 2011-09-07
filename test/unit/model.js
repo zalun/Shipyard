@@ -1,4 +1,5 @@
-var Class = require('../../lib/shipyard/class'),
+var Class = require('../../lib/shipyard/class/Class'),
+    Observable = require('../../lib/shipyard/class/Observable'),
 	Model = require('../../lib/shipyard/model/Model'),
 	Field = require('../../lib/shipyard/model/fields/Field');
 
@@ -78,14 +79,15 @@ module.exports = {
 			expect(JSON.stringify(u)).toBe(JSON.stringify(obj));
 		});
 
-		it('should fire a propertyChange event when data changes', function(expect) {
+		it('should be Observable', function(expect) {
 		
 			var u = new this.User();
+            expect(u).toBeAnInstanceOf(Observable);
 
 			var nameChange = false;
 
-			u.addEvent('propertyChange', function(key, newVal, oldVal) {
-				if (key == 'username') nameChange = true;
+			u.observe('username', function(newVal, oldVal) {
+				if (newVal == 'jenn') nameChange = true;
 			});
 
 			u.set('username', 'jenn');
