@@ -149,8 +149,11 @@ window.addEventListener('DOMContentLoaded', function() {
 	var scripts = document.getElementsByTagName('script'),
 		main;
 	for (var i = 0, length = scripts.length; i < length; i++) {
-		if (main = scripts[i].getAttribute('data-main')) {
-			var maindir = dirname(main);
+		var script = scripts[i];
+        if (main = script.getAttribute('data-main')) {
+			var maindir = dirname(main),
+                shipyard = normalize(script.getAttribute('src'), '../lib');
+            require.paths.unshift(shipyard);
 			if (~require.paths.indexOf(maindir))
 				require.paths.unshift(maindir);
 			require(main);
