@@ -15,13 +15,12 @@ program
 	});
 
 program
-	.command('build')
+	.command('build [dest]')
 	.description('Compress app into a single file')
 	.option('-r, --require', 'include mini require')
 	.option('-M, --no-min', 'do not minify')
-	.action(function() {
-		console.log('builddddd');
-		builder.compile(dir);
+	.action(function(dest) {
+		builder.compile(dir, dest);
 	});
 
 program
