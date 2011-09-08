@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+var program = require('commander'),
+	path = require('path'),
+	shipyard = require('../'),
+	builder = require('../scripts/build'),
+	server = require('../scripts/server'),
+	test = require('../scripts/test');
+
+var dir = process.cwd();
+
+program
+	.version(shipyard.version)
+	.option('-d, --dir <dir>', 'choose different directory', function(d) {
+		dir = path.join(dir, d);
+	});
+
+program
+	.command('build')
+	.description('Compress app into a single file')
+	.option('-r, --require', 'include mini require')
+	.option('-M, --no-min', 'do not minify')
+	.action(function() {
+		console.log('builddddd');
+		builder.compile(dir);
+	});
+
+program
+	.command('test')
+	.description('Run your app\'s test suite')
+	.action(function() {
+		var pack = shipyard.loadPackage(dir);
+		var tests = path.join(dir, pack.shipyard.test);
+
+		var cases = test.load(tests, program.args);
+		test.run(cases);
+	});
+
+program
+	.command('server')
+	.description('Run a simple server')
+	.action(function() {
+		server.serve(dir);
+	});
+
+program
+	.command('new <name>')
+	.description('Generate a new app')
+	.action(function(name) {
+		console.log('generating %s', name);
+	})
+
+program.parse(process.argv);
+if (process.argv.length == 2) {
+	program.emit('help');
+}

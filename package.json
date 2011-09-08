@@ -1,0 +1,25 @@
+{
+  "name": "shipyard",
+  "description": "A classical JavaScript MVC framework.",
+  "author": "Sean McArthur <smcarthur@mozilla.com> (https://github.com/seanmonstar)",
+  "version": "0.0.0",
+  "main": "./",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/seanmonstar/Shipyard.git"
+  },
+  "bin": "./bin/shipyard",
+  "engines": {
+    "node": "<v0.5.0"
+  },
+  "dependencies": { 
+	"jsdom": "~0.2.0",
+	"dryice": "git://github.com/seanmonstar/dryice.git",
+	"commander": "~0.1.0"
+  },
+  "devDependencies": {},
+  
+  "shipyard": {
+	"test": "./test/unit"
+  }
+}
