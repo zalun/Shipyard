@@ -24,7 +24,7 @@ Goals
 ### Model Goals
 
 1. Provide fields that can convert properties from useful JavaScript objects to serialized values when persisting, and vice versa.
-2. Fire propertyChange events, so that Views bound to a model can automatically update what they are displaying.
+2. Fire `change` events, so that Views bound to a model can automatically update what they are displaying.
 3. Allow persistance mixins to easily attach to sync methods, allowing one to easily store data in multiple places by simpling mixing in a new persistance service.
 4. Ability to add in Validation rules easily.
 

@@ -4,7 +4,6 @@ var fs = require('fs'),
 
 exports.load = function(dir, casesArgs) {
     var cases = [];
-    console.log(casesArgs);
     if (!casesArgs || !casesArgs.length) {
         casesArgs = fs.readdirSync(dir);
     }
