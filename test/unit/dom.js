@@ -16,6 +16,15 @@ module.exports = {
 			el.grab(el2);
 			expect(el2.getParent()).toBe(el);
 		});
+
+        it('should be able to set and get attributes', function(expect) {
+            var el = new dom.Element('div');
+            el.set('title', 'derp');
+
+
+            expect(el.node.title).toBe('derp');
+            expect(el.get('title')).toBe('derp');
+        });
 	},
 
 	'Element.serialize': function(it, setup) {
