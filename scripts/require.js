@@ -51,8 +51,14 @@ var dirname = function(filename) {
     return parts.join('/');
 };
 
+var basename = function(filename) {
+    return filename.split('/').pop();
+};
+
 var extname = function(filename) {
-	return '.' + filename.split('.').pop();
+    var base = basename(filename);
+    if (base.indexOf('.') > -1)
+	    return '.' + base.split('.').pop();
 };
 
 
@@ -78,10 +84,11 @@ var require = function shipyard_require(id, path){
 	if (path) require.paths.unshift(path);
 	var contents = false,
 		filename,
-		ext,
+		ext = extname(id),
 		base = '',
 		paths = (id[0] === '/') ? [''] : require.paths,
 		trailingSlash = (id.slice(-1) === '/'),
+        isRelative = id.charAt(0) == '.',
 		module;
 	
 	if (require.original) {
@@ -94,7 +101,22 @@ var require = function shipyard_require(id, path){
 	if (!module) {
 		var exts = Object.keys(require.extensions);
 		for (var i = 0, y = paths.length; (i < y); i++) {
-			base = normalize(paths[i], id);
+			if (isRelative) {
+                base = normalize(paths[i], id);
+            } else {
+                // check path versus id
+                // `/lib/shipyard` vs `shipyard/class/Class`
+                var poppedPath = paths[i].split('/')
+                    pathEnd = poppedPath.pop(),
+                    idStart = id.split('/').shift();
+                
+                if (pathEnd == idStart) {
+                    base = normalize(poppedPath.join('/'), id);
+                } else {
+                    continue;
+                }
+            }
+
 			module = MODULES[base];
 			if(module)  break;
 			
@@ -102,11 +124,15 @@ var require = function shipyard_require(id, path){
 			//2. tryExtensions
 			//3. tryExtensions with index
 			if (!trailingSlash) {
-				filename = tryFile(base);
-
+                if (ext) {
+				    filename = tryFile(base);
+                }
 				if (!filename) {
-					filename = tryExtensions(base, exts);
+				    filename = tryExtensions(base, exts);
 				}
+                if (!filename && !ext) {
+                    filename = tryFile(base);
+                }
 			}
 
 			if (!filename) {
@@ -152,7 +178,7 @@ window.addEventListener('DOMContentLoaded', function() {
 		var script = scripts[i];
         if (main = script.getAttribute('data-main')) {
 			var maindir = dirname(main),
-                shipyard = normalize(script.getAttribute('src'), '../lib');
+                shipyard = normalize(script.getAttribute('src'), '../lib/shipyard');
             require.paths.unshift(shipyard);
 			if (~require.paths.indexOf(maindir))
 				require.paths.unshift(maindir);
