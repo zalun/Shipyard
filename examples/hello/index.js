@@ -4,11 +4,12 @@ var View = require('shipyard/view/View'),
     TextFieldView = require('shipyard/view/TextFieldView');
 
 person = new Person({name: 'Sean'});
-var whoAreYou = new TextFieldView({ 
-    placeholder: 'What is your name'
+whoAreYou = new TextFieldView({ 
+    placeholder: 'What is your name',
+    id: 'whoAreYou'
 }).bind(person, { value: 'name' });
 whoAreYou.attach();
-var hello = new Container();
+hello = new Container();
 hello.addView(new View({data: 'Hello '}));
 hello.addView(new View().bind(person, { data: 'name' }));
 hello.attach();
