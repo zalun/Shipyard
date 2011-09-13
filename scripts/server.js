@@ -20,7 +20,7 @@ exports.serve = function(dir, port) {
             if (exists) {
                 fs.readFile(filename, 'binary', function(err, file) {
                     if (err) {
-                        console.log("Error for file (%s): %s", file, err);
+                        console.log("Error for file (%s): %s", filename, err);
                         res.writeHead(500, HEADERS);
                         res.write(err + '\n');
                         res.end();
