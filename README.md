@@ -41,6 +41,13 @@ Goals
 1. A controller should be concerned with a general area of the webapp, adding Views.
 2. Can listen to Views events, and decide what models should change and when.
 
+Getting Started
+---------------
+
+1. Checkout the repo.
+2. `npm link`
+3. `shipyard test`
+4. Woo!
 
 How to use
 ----------
