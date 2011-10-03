@@ -4,6 +4,9 @@ var fs = require('fs'),
 
 function loadPackage(dir) {
     var package = path.join(dir, './package.json');
+    if (!path.existsSync(package)) {
+        throw new ShipyardError('Package.json does not exist: ' + package);
+    }
     try {
         return JSON.parse(fs.readFileSync(package));
     } catch (ex) {
