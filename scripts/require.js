@@ -162,6 +162,7 @@ require.extensions = {
 
 require._load = load;
 require._compile = compile;
+require._modules = MODULES;
 require.paths = [window.location.pathname];
 
 
@@ -175,10 +176,11 @@ window.addEventListener('DOMContentLoaded', function() {
 	var scripts = document.getElementsByTagName('script'),
 		main;
 	for (var i = 0, length = scripts.length; i < length; i++) {
-		var script = scripts[i];
-        if (main = script.getAttribute('data-main')) {
+		var script = scripts[i],
+            src = script.getAttribute('src');
+        if ((src.indexOf('require.js') >= 0) && (main = script.getAttribute('data-main'))) {
 			var maindir = dirname(main),
-                shipyard = normalize(script.getAttribute('src'), '../lib/shipyard');
+                shipyard = normalize(dirname(src), '../lib/shipyard');
             require.paths.unshift(shipyard);
 			if (~require.paths.indexOf(maindir))
 				require.paths.unshift(maindir);
