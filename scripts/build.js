@@ -3,8 +3,15 @@ var path = require('path'),
 	copy = require('dryice').copy;
 
 exports.compile = function(appDir, dest) {
-    var pack = shipyard.loadPackage(appDir);
-        meta = pack.shipyard;
+    try {
+        var pack = shipyard.loadPackage(appDir);
+    } catch (ex) {
+        console.error(ex.message);
+        process.exit(1);
+    }    
+    
+    var meta = pack.shipyard;
+
     
     console.log('Starting build of %s...', pack.name);
 
@@ -12,7 +19,6 @@ exports.compile = function(appDir, dest) {
         app = path.join(pack.name, meta.app),
         shipyardDir = path.join(__dirname, '../lib');
 
-    console.log(dir, app);
     var project = copy.createCommonJsProject({
         roots: [dir, shipyardDir]
     });
