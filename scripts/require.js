@@ -1,5 +1,10 @@
 (function(){
 
+function RequireError(msg) {
+    this.message = msg;
+}
+RequireError.prototype = new Error;
+
 var XHR = function(){
 	try { return new XMLHttpRequest(); } catch(e){}
 	try { return new ActiveXObject('MSXML2.XMLHTTP'); } catch(e){}
@@ -23,7 +28,19 @@ var compile = function(module, contents) {
 	module.exports = {};
 	var fn = new Function('exports, require, module, __filename, __dirname', contents)
 	require.paths.unshift(module.dirname);
-	fn.call(window, module.exports, require, module, module.filename, module.dirname);
+    var _req = function(id) {
+        try {
+            return require(id);
+        } catch (ex) {
+            if (ex instanceof RequireError) {
+                throw new RequireError(ex.message + ', required from "'+module.filename+'"');
+            } else {
+                throw ex;
+            }
+        }
+    };
+    _req.paths = require.paths;
+    fn.call(window, module.exports, _req, module, module.filename, module.dirname);
 	require.paths.shift();
 };
 
@@ -149,7 +166,7 @@ var require = function shipyard_require(id, path){
 			}
 		}
 	}
-	if (!module) throw new Error('Cannot find module "' + id + '"');
+	if (!module) throw new RequireError('Cannot find module "' + id + '"');
 	if (path) require.paths.shift();
 	return module.exports;
 };
