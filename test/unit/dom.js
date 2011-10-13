@@ -1,4 +1,5 @@
-var dom = require('../../lib/shipyard/dom');
+var dom = require('../../lib/shipyard/dom'),
+    string = require('../../lib/shipyard/utils/string');
 
 module.exports = {
 	
@@ -142,7 +143,7 @@ module.exports = {
 			
 			expect(dom.$('derp')).toBe(el);
 
-			//el.destroy();
+			el.dispose();
 		});
 
 		it('should call toElement if passed an object', function(expect) {
@@ -156,6 +157,18 @@ module.exports = {
 			expect(dom.$(obj)).toBe(el);			
 		});
 
+        it('should be removable via dispose', function(expect) {
+            var id = string.uniqueID();
+            dom.document.body.grab(new dom.Element('div', { id: id }));
+
+            var el = dom.$(id);
+            expect(el).toBeTruthy();
+
+            el.dispose();
+            el = dom.$(id);
+            expect(el).toBeFalsy();
+        })
+
 	},
 	
 	'$$': function(it, setup) {
@@ -165,6 +178,21 @@ module.exports = {
 			expect(els).toBeAnInstanceOf(dom.Elements);
 			expect(els.length).toBe(1);
 		});
+
+        it('should have methods from Element', function(expect) {
+            var num = 3,
+                className = string.uniqueID();
+            for (var i = 0; i < num; i++) {
+                dom.document.body.grab(new dom.Element('div', { 'class': className }));
+            }
+
+            var els = dom.$$('.'+className);
+            expect(els.length).toBe(num);
+
+            els.dispose();
+
+            expect(dom.$$('.'+className).length).toBe(0);
+        })
 
 	}
 
