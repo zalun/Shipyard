@@ -1,12 +1,11 @@
 var fs = require('fs'),
     path = require('path'),
+    assert = require('./lib/shipyard/error/assert'),
     ShipyardError = require('./lib/shipyard/error/Error');
 
 function loadPackage(dir) {
     var package = path.join(dir, './package.json');
-    if (!path.existsSync(package)) {
-        throw new ShipyardError('Package.json does not exist: ' + package);
-    }
+    assert(path.existsSync(package), 'Package.json does not exist: ', package);
     try {
         return JSON.parse(fs.readFileSync(package));
     } catch (ex) {
