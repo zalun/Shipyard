@@ -30,6 +30,10 @@ program
 		var pack = shipyard.loadPackage(dir);
 		var tests = path.join(dir, pack.shipyard.test);
 
+        var lib = path.join(shipyard.dirname, shipyard.directories.lib);
+
+        //TODO: this doesn't work in Node 0.5+
+        require.paths.unshift(lib);
 		var cases = test.load(tests, program.args);
 		test.run(cases);
 	});

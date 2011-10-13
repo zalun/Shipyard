@@ -15,5 +15,7 @@ function loadPackage(dir) {
 
 var shipyard = loadPackage(__dirname);
 shipyard.loadPackage = loadPackage;
+shipyard.filename = __filename;
+shipyard.dirname = __dirname;
 
 module.exports = shipyard;

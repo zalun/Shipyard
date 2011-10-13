@@ -2,13 +2,31 @@ var fs = require('fs'),
 	path = require('path');
 	Testigo = require('../test/testigo').Testigo;
 
-exports.load = function(dir, casesArgs) {
+function namespace(prefix, module) {
+    if (!prefix) return module;
+    var obj = {};
+    prefix += ': ';
+    for (var k in module) {
+        obj[prefix+k] = module[k];
+    }
+    return obj;
+}
+
+exports.load = function load(dir, casesArgs, prefix) {
     var cases = [];
     if (!casesArgs || !casesArgs.length) {
         casesArgs = fs.readdirSync(dir);
     }
     casesArgs.forEach(function(val) {
-        cases.push(require(path.join(dir, val)));
+        var _p = path.join(dir, val);
+        if (fs.statSync(_p).isFile()) {
+            cases.push(namespace(prefix, require(_p)));
+        } else {
+            _prefix = (prefix ? prefix+': ' : '') + val
+            load(_p, null, _prefix).forEach(function(_d) {
+                cases.push(_d);
+            })
+        }
     });
     return cases;
 };
