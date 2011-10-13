@@ -16,6 +16,11 @@ exports.load = function load(dir, casesArgs, prefix) {
     var cases = [];
     if (!casesArgs || !casesArgs.length) {
         casesArgs = fs.readdirSync(dir);
+    } else {
+        casesArgs = casesArgs.map(function(c) {
+            if (!~c.indexOf('.js')) return c + '.js';
+            return c;
+        })
     }
     casesArgs.forEach(function(val) {
         var _p = path.join(dir, val);
