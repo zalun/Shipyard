@@ -18,7 +18,9 @@ exports.load = function load(dir, casesArgs, prefix) {
         casesArgs = fs.readdirSync(dir);
     } else {
         casesArgs = casesArgs.map(function(c) {
-            if (!~c.indexOf('.js')) return c + '.js';
+            if (!~c.indexOf('.js') && !path.existsSync(path.join(dir, c))) {
+                return c + '.js';
+            }
             return c;
         })
     }
