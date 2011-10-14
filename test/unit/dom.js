@@ -1,5 +1,6 @@
 var dom = require('../../lib/shipyard/dom'),
-    string = require('../../lib/shipyard/utils/string');
+    string = require('../../lib/shipyard/utils/string'),
+    Spy = require('../testigo/lib/spy').Spy;
 
 module.exports = {
 	
@@ -25,6 +26,18 @@ module.exports = {
 
             expect(el.node.title).toBe('derp');
             expect(el.get('title')).toBe('derp');
+        });
+
+        it('should be able to listen to events', function(expect) {
+            var el = new dom.Element('div');
+            var fn = new Spy;
+
+            el.addEvent('click', fn);
+
+            el.fireEvent('click');
+
+            expect(fn.getCallCount()).toBe(1);
+
         });
 	},
 
