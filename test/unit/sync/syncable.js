@@ -1,7 +1,7 @@
-var Class = require('../../lib/shipyard/class/Class'),
-	Sync = require('../../lib/shipyard/sync/Sync'),
-	Syncable = require('../../lib/shipyard/sync/Syncable'),
-	Spy = require('../testigo/lib/spy').Spy;
+var Class = require('../../../lib/shipyard/class/Class'),
+	Sync = require('../../../lib/shipyard/sync/Sync'),
+	Syncable = require('../../../lib/shipyard/sync/Syncable'),
+	Spy = require('../../testigo/lib/spy').Spy;
 
 module.exports = {
 
@@ -22,7 +22,10 @@ module.exports = {
 			});
 
 			MockSyncable = new Class({
-				Implements: Syncable
+				Implements: Syncable,
+                initialize: function(data) {
+                    this.data = data;
+                }
 			});
 		});
 		
@@ -92,5 +95,32 @@ module.exports = {
 			expect(instSpy.getCallCount()).toBe(1);
 			expect(classSpy.getCallCount()).toBe(1);
 		});
+
+        it('should wrap the returned values from find', function(expect){
+            var sync = new MockSync;
+            sync.read = function(opts, callback) {
+                callback([{a: 1}, {a: 2}]);
+            };
+
+            MockSyncable.addSync('default', sync);
+            MockSyncable.find({callback: function(list) {
+                expect(list).toBeAnInstanceOf(Array);
+                expect(list[0].data.a).toBe(1);
+            }});
+        });
+
+        it('should wrap single objects', function(expect) {
+            var sync = new MockSync;
+            sync.read = function(opts, callback) {
+                callback({a: 3});
+            };
+
+            MockSyncable.addSync('default', sync);
+            MockSyncable.find({callback: function(list){
+                expect(list).toBeAnInstanceOf(Array);
+                expect(list[0].data.a).toBe(3);
+            }});
+        });
 	}
 };
+
