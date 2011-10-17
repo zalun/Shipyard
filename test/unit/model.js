@@ -69,6 +69,25 @@ module.exports = {
 
 		});
 
+        it('should have a dynamic `pk` property', function(expect) {
+            var M = new Class({
+                Extends: this.User,
+                pk: 'username'
+            });
+
+            var john = new this.User({ id: 1, username: 'john' });
+            var moe = new M({ id: 2, username: 'moe' });
+
+            expect(john.get('pk')).toBe(1);
+            expect(moe.get('pk')).toBe('moe');
+
+            john.set('pk', 4);
+            moe.set('pk', 'larry');
+
+            expect(john.get('id')).toBe(4);
+            expect(moe.get('username')).toBe('larry');
+        });
+
 		it('should be serializable to JSON', function(expect) {
 			var obj = {
 				username: 'Sean',
