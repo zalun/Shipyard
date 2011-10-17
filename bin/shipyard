@@ -31,8 +31,10 @@ program
 		var tests = path.join(dir, pack.shipyard.test);
 
         var lib = path.join(shipyard.dirname, shipyard.directories.lib);
+        var testigo = path.join(shipyard.dirname, './test/');
 
         //TODO: this doesn't work in Node 0.5+
+        require.paths.unshift(testigo);
         require.paths.unshift(lib);
 		var cases = test.load(tests, program.args);
 		test.run(cases);
