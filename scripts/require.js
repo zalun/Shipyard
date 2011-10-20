@@ -115,8 +115,10 @@ var require = function shipyard_require(id, path){
         base = '',
         paths = (id[0] === '/') ? [''] : require.paths,
         trailingSlash = (id.slice(-1) === '/'),
-        isRelative = id.charAt(0) == '.',
-        module = MODULES[id];
+        isRelative = id.charAt(0) == '.';
+
+    if (trailingSlash) id = id.slice(0, -1);
+    var module = MODULES[id];
     
 
 
