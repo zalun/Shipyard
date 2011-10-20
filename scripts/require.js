@@ -219,6 +219,8 @@ var scripts = document.getElementsByTagName('script'),
 for (var i = 0, length = scripts.length; i < length; i++) {
     var script = scripts[i],
         src = script.getAttribute('src');
+    if (!src) continue;
+
     if ((src.indexOf('require.js') >= 0) && (main = script.getAttribute('data-main'))) {
         var maindir = dirname(main),
             shipyard = normalize(dirname(src), '../lib/shipyard');
