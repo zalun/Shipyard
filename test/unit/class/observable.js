@@ -9,6 +9,18 @@ module.exports = {
             expect(o.get('foo')).toBe('bar');
         });
 
+        it('should be able to get from functions', function(expect) {
+            var o = new Observable;
+            o.fullName = function() { 
+                return [this.get('first'), this.get('last')].join(' '); 
+            };
+
+            o.set('first', 'Sean');
+            o.set('last', 'McArthur');
+
+            expect(o.get('fullName')).toBe('Sean McArthur');
+        });
+
         it('should be able to take a hash to set data', function(expect) {
             var o = new Observable;
             o.set({ foo: 'bar', baz: 'bad' });
