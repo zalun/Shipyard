@@ -44,6 +44,31 @@ module.exports = {
 			expect(fn2.getCallCount()).toBe(2);
 		});
 
+        it('should remove all listerners for a specific event', function(expect) {
+            var fn = new Spy,
+                fn2 = new Spy;
+
+            this.E.addEvent('a', fn);
+            this.E.addEvent('b', fn2);
+
+            this.E.removeEvents('a');
+            this.E.fireEvent('a');
+            this.E.fireEvent('b');
+
+            expect(fn.getCallCount()).toBe(0);
+            expect(fn2.getCallCount()).toBe(1);
+        });
+
+        it('should be able to remove all listeners', function(expect) {
+            var fn = new Spy;
+            this.E.addEvent('x', fn);
+
+            this.E.removeEvents();
+            this.E.fireEvent('x');
+
+            expect(fn.getCallCount()).toBe(0);
+        })
+
         it('should return a Pointer when addEvent', function(expect) {
             var fn = new Spy;
             var ptr = this.E.addEvent('a', fn);
