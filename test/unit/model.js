@@ -28,6 +28,18 @@ module.exports = {
 		
 		});
 
+        it('should set initial default data', function(expect) {
+            var Task = new Class({
+                Extends: Model,
+                fields: {
+                    title: new Field({type:String, default:'Untitled'})
+                }
+            });
+
+            var t = new Task();
+            expect(t.get('title')).toBe('Untitled');
+        });
+
 		it('should throw an Error if getting a non-existing field', function(expect) {
 			var u = new this.User();
 
