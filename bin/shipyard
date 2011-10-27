@@ -12,15 +12,22 @@ program
 	.version(shipyard.version)
 	.option('-d, --dir <dir>', 'choose different directory', function(d) {
 		dir = path.join(dir, d);
-	});
+	})
+    .option('-r, --require', 'include mini require')
+    .option('-m, --minify', 'force a minify')
+	.option('-M, --non-minify', 'do not minify');
 
 program
 	.command('build [dest]')
 	.description('Compress app into a single file')
-	.option('-r, --require', 'include mini require')
-	.option('-M, --no-min', 'do not minify')
-	.action(function(dest) {
-		builder.compile(dir, dest);
+    .action(function(dest) {
+        console.log(this.minify);
+        console.log(this);
+		builder.compile(dir, dest, {
+            force_minify: this.minify,
+            no_minify: this.nonMinify,
+            mini_require: this.require
+        });
 	});
 
 program

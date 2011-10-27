@@ -2,9 +2,10 @@ var path = require('path'),
     shipyard = require('../'),
 	copy = require('dryice').copy;
 
-exports.compile = function(appDir, dest) {
+exports.compile = function(appDir, dest, options) {
+    var pack;
     try {
-        var pack = shipyard.loadPackage(appDir);
+        pack = shipyard.loadPackage(appDir);
     } catch (ex) {
         console.error(ex.message);
         process.exit(1);
@@ -26,7 +27,7 @@ exports.compile = function(appDir, dest) {
     var build = copy.createDataObject();
 
     // mini_require defaults to false, for now
-    if (meta.mini_require) {
+    if (meta.mini_require || options.mini_require) {
         console.log('Including mini require...');
         copy({
             source: [path.join(__dirname, '../build/require.js')],
@@ -50,13 +51,19 @@ exports.compile = function(appDir, dest) {
         }],
         dest: build
     });
+
+    finalFilters = [];
+    if (options.force_minify || meta.min && !options.no_minify) {
+        finalFilters.push(copy.filter.uglifyjs);
+        console.log('Minifying...');
+    }
     
-    dest = dest || path.join(appDir, meta.min);
+    dest = dest || path.join(appDir, meta.target);
     console.log('Copying to %s...', dest);
     copy({
         source: build,
         dest: dest,
-        filter: []//[copy.filter.uglifyjs]
+        filter: finalFilters
     });
 
     console.log('Done.');
@@ -79,7 +86,7 @@ function wrapDefines(content, location) {
 wrapDefines.onRead = true;
 
 if (require.main == module) {
-    var src = path.join(process.cwd(), process.argv[2])
-        dest = path.join(process.cwd(), process.argv[3])
+    var src = path.join(process.cwd(), process.argv[2]),
+        dest = path.join(process.cwd(), process.argv[3]);
     exports.compile(src, dest);
 }
