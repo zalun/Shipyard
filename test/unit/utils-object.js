@@ -26,7 +26,7 @@ module.exports = {
     
             expect(a.e === b.e).toBeFalsy();
             expect(a.f === b.f).toBeFalsy();
-        })
+        });
     },
     
     'object.clone': function(it, setup) {
@@ -63,7 +63,7 @@ module.exports = {
             var fn = function(){};
             fn.prototype = {a: 1};
 
-            var obj = new fn;
+            var obj = new fn();
             obj.b = 2;
 
             var items = {};
@@ -74,6 +74,39 @@ module.exports = {
             expect(items).toBeLike({b: 2});
         });
                 
+    },
+
+    'object.some': function(it, setup) {
+        it('should return true if one condition is true', function(expect) {
+            var obj = { 'a': false, 'b': true, 'c': false };
+            
+            var ret = object.some(obj, function(val) {
+                return val;
+            });
+            expect(ret).toBe(true);
+        });
+
+        it('should return false if no conditions are true', function(expect) {
+            var obj = { a: false, b: false };
+            var ret = object.some(obj, function(val) {
+                return val;
+            });
+            expect(ret).toBe(false);
+        });
+    },
+
+    'object.every': function(it, setup) {
+        it('should return true if all conditions are true', function(expect){
+            var obj = { a: true, b: true };
+            var ret = object.every(obj, function(val) { return val; });
+            expect(ret).toBe(true);
+        });
+
+        it('should return false if one condition is false', function(expect) {
+            var obj = { a: true, b: false, c: true, d: true };
+            var ret = object.every(obj, function(val) { return val; });
+            expect(ret).toBe(false);
+        });
     },
 
 	'object.toQueryString': function(it, setup) {
