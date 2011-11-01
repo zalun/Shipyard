@@ -21,8 +21,6 @@ program
 	.command('build [dest]')
 	.description('Compress app into a single file')
     .action(function(dest) {
-        console.log(this.minify);
-        console.log(this);
 		builder.compile(dir, dest, {
             force_minify: this.minify,
             no_minify: this.nonMinify,
