@@ -18,7 +18,7 @@ module.exports = {
 
             new Request({
                 onComplete: function(text) {
-                    expect(text).toBe('one');            
+                    expect(text).toBe('one');
                 }
             }).send();
 
@@ -39,6 +39,20 @@ module.exports = {
             });
             
             r.send();
+        });
+
+        it('should accept a handler', function(expect) {
+            mockXHR(function(data) {
+                expect(data.a).toBe('moo');
+                return 'derp';
+            });
+
+            new Request({
+                data: { a: 'moo' },
+                onComplete: function(text) {
+                    expect(text).toBe('derp');
+                }
+            }).send();
         });
     }
 };
