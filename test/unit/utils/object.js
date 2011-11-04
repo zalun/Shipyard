@@ -1,4 +1,4 @@
-var object = require('../../lib/shipyard/utils/object');
+var object = require('../../../lib/shipyard/utils/object');
 
 module.exports = {
     
@@ -46,15 +46,15 @@ module.exports = {
         it('should call the function for each item in the object', function(expect){
             var daysObj = {};
             object.forEach({
-                first: "Sunday", 
-                second: "Monday", 
+                first: "Sunday",
+                second: "Monday",
                 third: "Tuesday"}, function(value, key){
                 daysObj[key] = value;
             });
 
             expect(daysObj).toBeLike({
-                first: 'Sunday', 
-                second: 'Monday', 
+                first: 'Sunday',
+                second: 'Monday',
                 third: 'Tuesday'
             });
         });
