@@ -41,6 +41,26 @@ module.exports = {
         });
 	},
 
+    'Element.Styles': function(it, setup) {
+        it('should be able to setStyle', function(expect) {
+            var el = new dom.Element('div');
+            el.setStyle('display', 'none');
+
+            expect(el.getStyle('display')).toBe('none');
+        });
+
+        it('should accept styles in the constructor', function(expect) {
+            var el = new dom.Element('div', {
+                styles: {
+                    display: 'inline',
+                    color: 'red'
+                }
+            });
+
+            expect(el.getStyle('color')).toBe('red');
+        });
+    },
+
 	'Element.serialize': function(it, setup) {
 		it('should serialize text inputs', function(expect) {
 			var form = new dom.Element('form', { 
