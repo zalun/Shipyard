@@ -8,6 +8,12 @@ module.exports = {
         });
     },
 
+    'string.capitalize': function(it, setup) {
+        it('should capitalize the first letter', function(expect) {
+            expect(string.capitalize('hello')).toBe('Hello');
+        });
+    },
+
     'string.parseQueryString': function(it, setup) {
         it('should parse query strings', function(expect) {
             expect(string.parseQueryString('a=1&b=qwer')).toBeLike({
