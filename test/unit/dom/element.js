@@ -30,7 +30,9 @@ module.exports = {
 
         it('should be able to listen to events', function(expect) {
             var el = new dom.Element('div');
-            var fn = new Spy();
+            var fn = new Spy(function() {
+                expect(this).toBe(el);
+            });
 
             el.addEvent('click', fn);
 
