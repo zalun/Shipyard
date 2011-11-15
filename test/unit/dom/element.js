@@ -24,8 +24,22 @@ module.exports = {
             el.set('title', 'derp');
 
 
-            expect(el.node.title).toBe('derp');
+            expect(el.getNode().title).toBe('derp');
             expect(el.get('title')).toBe('derp');
+        });
+
+        it('should have have a setter/getter for "text"', function(expect) {
+            var el = new dom.Element('div');
+            el.set('text', 'hello');
+
+            expect(el.getNode().textContent).toBe('hello');
+        });
+
+        it('should have a setter/getter for "html"', function(expect) {
+            var el = new dom.Element('div');
+            el.set('html', '<span>derp</span>');
+
+            expect(el.getElement('span').get('text')).toBe('derp');
         });
 
         it('should be able to listen to events', function(expect) {
