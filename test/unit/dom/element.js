@@ -82,6 +82,16 @@ module.exports = {
 
             expect(el.getStyle('left')).toBe('10px');
         });
+
+        it('should set numeric styles with strings', function(expect) {
+            var el = new dom.Element('div');
+            el.setStyle('z-index', 100);
+
+            expect(el.getStyle('z-index')).toBe('100');
+
+            el.setStyle('z-index', '200');
+            expect(el.getStyle('z-index')).toBe('200');
+        })
     },
 
 	'Element.serialize': function(it, setup) {

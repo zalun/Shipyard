@@ -14,6 +14,12 @@ module.exports = {
         });
     },
 
+    'string.camelCase': function(it, setup) {
+        it('should camelcase dashified strings', function(expect) {
+            expect(string.camelCase('ab-cd-ef')).toBe('abCdEf');
+        });
+    },
+
     'string.parseQueryString': function(it, setup) {
         it('should parse query strings', function(expect) {
             expect(string.parseQueryString('a=1&b=qwer')).toBeLike({
