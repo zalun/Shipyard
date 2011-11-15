@@ -20,6 +20,12 @@ module.exports = {
         });
     },
 
+    'string.hyphenate': function(it, setup) {
+        it('should hyphenate camelcased strings', function(expect) {
+            expect(string.hyphenate('camelCase')).toBe('camel-case');
+        });
+    },
+
     'string.parseQueryString': function(it, setup) {
         it('should parse query strings', function(expect) {
             expect(string.parseQueryString('a=1&b=qwer')).toBeLike({
