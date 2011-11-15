@@ -61,6 +61,13 @@ module.exports = {
 
             expect(el.getStyle('color')).toBe('red');
         });
+
+        it('should be able to set position styles', function(expect) {
+            var el = new dom.Element('div');
+            el.setStyle('left', 10);
+
+            expect(el.getStyle('left')).toBe('10px');
+        });
     },
 
 	'Element.serialize': function(it, setup) {
