@@ -12,131 +12,139 @@ provides: [Expectation]
 (function(){
 
 var utils = require('./utils'),
-	typeOf = utils.typeOf,
-	instanceOf = utils.instanceOf;
+    typeOf = utils.typeOf,
+    instanceOf = utils.instanceOf;
 
 var prepareNot = function(exp){
-	exp.not = {};
-	for (var matcher in Expectation.Matchers) (function(matcher){
-		exp.not[matcher] = function(expected){
-			var Matchers = Expectation.Matchers;
-			var result = !Matchers[matcher].call(Matchers, exp.$received, expected);
-			exp.$callback.call(exp.$bound, result, exp.$received, expected, 'not.' + matcher);
-			return result;
-		};
-	})(matcher);
+    exp.not = {};
+    for (var matcher in Expectation.Matchers) (function(matcher){
+        exp.not[matcher] = function(expected){
+            var Matchers = Expectation.Matchers;
+            var result = !Matchers[matcher].call(Matchers, exp.$received, expected);
+            exp.$callback.call(exp.$bound, result, exp.$received, expected, 'not.' + matcher);
+            return result;
+        };
+    })(matcher);
 };
 
 var Expectation = function(value, callback, bound){
-	this.$received = value;
-	this.$callback = callback || function(){};
-	this.$bound = bound || this;
-	prepareNot(this);
+    this.$received = value;
+    this.$callback = callback || function(){};
+    this.$bound = bound || this;
+    prepareNot(this);
 };
 
 Expectation.setMatcher = function(name, func){
-	if (func === undefined || !(func instanceof Function))
-		throw new TypeError('Expectation.setMatcher requires a function as its second argument.');
-	Expectation.prototype[name] = function(expected){
-		var Matchers = Expectation.Matchers;
-		var result = func.call(Matchers, this.$received, expected);
-		this.$callback.call(this.$bound, result, this.$received, expected, name);
-		return result;
-	};
-	Expectation.Matchers[name] = func;
+    if (func === undefined || !(func instanceof Function))
+        throw new TypeError('Expectation.setMatcher requires a function as its second argument.');
+    Expectation.prototype[name] = function(expected){
+        var Matchers = Expectation.Matchers;
+        var result = func.call(Matchers, this.$received, expected);
+        this.$callback.call(this.$bound, result, this.$received, expected, name);
+        return result;
+    };
+    Expectation.Matchers[name] = func;
 };
 
 Expectation.Matchers = {
 
-	toBe: function(received, expected){
-		return expected === received;
-	},
+    toBe: function(received, expected){
+        return expected === received;
+    },
 
-	toEqual: function(received, expected){
-		return expected == received;
-	},
+    toEqual: function(received, expected){
+        return expected == received;
+    },
 
-	toBeType: function(received, expected){
-		return expected == typeOf(received);
-	},
+    toBeType: function(received, expected){
+        return expected == typeOf(received);
+    },
 
-	toBeAnInstanceOf: function(received, expected){
-		return instanceOf(received, expected);
-	},
+    toBeAnInstanceOf: function(received, expected){
+        return instanceOf(received, expected);
+    },
 
-	toBeNull: function(received){
-		return received === null;
-	},
+    toBeNull: function(received){
+        return received === null;
+    },
 
-	toBeUndefined: function(received){
-		return received === undefined;
-	},
+    toBeUndefined: function(received){
+        return received === undefined;
+    },
 
-	toBeTrue: function(received){
-		return received === true;
-	},
+    toBeTrue: function(received){
+        return received === true;
+    },
 
-	toBeTruthy: function(received){
-		return (!!received) === true;
-	},
+    toBeTruthy: function(received){
+        return (!!received) === true;
+    },
 
-	toBeFalse: function(received){
-		return received === false;
-	},
+    toBeFalse: function(received){
+        return received === false;
+    },
 
-	toBeFalsy: function(received){
-		return (!!received) === false;
-	},
+    toBeFalsy: function(received){
+        return (!!received) === false;
+    },
 
-	toHaveMember: function(received, expected){
-		try {
-			return (expected in received);
-		} catch(e){
-			return false;
-		}
-	},
+    toBeGreaterThan: function(received, expected) {
+        return received > expected;
+    },
 
-	toHaveProperty: function(received, expected){
-		try {
-			return (expected in received) && received[expected] !== undefined && !(received[expected] instanceof Function);
-		} catch(e){
-			return false;
-		}
-	},
+    toBeLessThan: function(received, expect) {
+        return received < expected;
+    },
 
-	toHaveMethod: function(received, expected){
-		try {
-			return (expected in received) && received[expected] !== undefined && (received[expected] instanceof Function);
-		} catch(e){
-			return false;
-		}
-	},
+    toHaveMember: function(received, expected){
+        try {
+            return (expected in received);
+        } catch(e){
+            return false;
+        }
+    },
 
-	toBeLike: function(received, expected){
-		var type = typeOf(expected);
-		if (type !== typeOf(received)) return null;
-		if (type == 'object'){
-			for (var key in expected){
-				if (received[key] === undefined || !this.toBeLike(received[key], expected[key])) return false;
-			}
-		} else if (type == 'array'){
-			var len = expected.length;
-			while (len--){
-				if (!this.toBeLike(received[len], expected[len])) return false;
-			}
-		} else {
-			return expected === received;
-		}
-		return true;
-	},
+    toHaveProperty: function(received, expected){
+        try {
+            return (expected in received) && received[expected] !== undefined && !(received[expected] instanceof Function);
+        } catch(e){
+            return false;
+        }
+    },
 
-	toBeSimilar: function(received, expected){
-		return JSON.stringify(received) === JSON.stringify(expected);
-	},
+    toHaveMethod: function(received, expected){
+        try {
+            return (expected in received) && received[expected] !== undefined && (received[expected] instanceof Function);
+        } catch(e){
+            return false;
+        }
+    },
 
-	toMatch: function(received, expected){
-		return expected.test(received);
-	}
+    toBeLike: function(received, expected){
+        var type = typeOf(expected);
+        if (type !== typeOf(received)) return null;
+        if (type == 'object'){
+            for (var key in expected){
+                if (received[key] === undefined || !this.toBeLike(received[key], expected[key])) return false;
+            }
+        } else if (type == 'array'){
+            var len = expected.length;
+            while (len--){
+                if (!this.toBeLike(received[len], expected[len])) return false;
+            }
+        } else {
+            return expected === received;
+        }
+        return true;
+    },
+
+    toBeSimilar: function(received, expected){
+        return JSON.stringify(received) === JSON.stringify(expected);
+    },
+
+    toMatch: function(received, expected){
+        return expected.test(received);
+    }
 
 };
 
