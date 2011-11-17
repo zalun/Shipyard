@@ -137,7 +137,8 @@ Testigo.version = [0,1,9,'X'];
 Testigo.versionText = Testigo.version.join('.');
 
 Testigo.Runners = {
-	Simple: require('./runners/simple').SimpleRunner
+	Simple: require('./runners/simple').SimpleRunner,
+    CI: require('./runners/ci')
 };
 
 Testigo.setMatcher = Testigo.prototype.setMatcher = function(name, fn){

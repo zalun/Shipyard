@@ -40,7 +40,7 @@ exports.load = function load(dir, casesArgs, prefix) {
 
 exports.run = function(cases) {
     var Suite = new Testigo(),
-        Runner = new Testigo.Runners.Simple('node', Suite);
+        Runner = new Testigo.Runners.CI(Suite, true);
 
     cases.forEach(function(testCase) {
         for (var description  in testCase) {
