@@ -92,7 +92,7 @@ Expectation.Matchers = {
         return received > expected;
     },
 
-    toBeLessThan: function(received, expect) {
+    toBeLessThan: function(received, expected) {
         return received < expected;
     },
 
