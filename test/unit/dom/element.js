@@ -91,7 +91,14 @@ module.exports = {
 
             el.setStyle('z-index', '200');
             expect(el.getStyle('z-index')).toBe('200');
-        })
+        });
+
+        it('should set opacity', function(expect) {
+            var el = new dom.Element('div');
+            el.setStyle('opacity', 0.5);
+
+            expect(el.getStyle('opacity')).toBe(0.5);
+        });
     },
 
 	'Element.serialize': function(it, setup) {
