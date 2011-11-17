@@ -7,7 +7,7 @@ module.exports = {
 		
 		setup('beforeEach', function() {
 			this.E = new Events();
-		})
+		});
 
 		it('should be able to listen to events fired', function(expect) {
 			var fn = new Spy();
@@ -69,11 +69,11 @@ module.exports = {
             expect(fn.getCallCount()).toBe(0);
         })
 
-        it('should return a Pointer when addEvent', function(expect) {
+        it('should return a Listener when addEvent', function(expect) {
             var fn = new Spy;
             var ptr = this.E.addEvent('a', fn);
 
-            ptr.remove();
+            ptr.detach();
 
             this.E.fireEvent('e');
 
