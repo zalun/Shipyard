@@ -9,10 +9,10 @@ module.exports = {
 		
 		setup('beforeEach', function() {
 			MockXHR = function() {
-				this.send = new Spy;
-				this.abort = new Spy;
-				this.open = new Spy;
-				this.setRequestHeader = new Spy;
+				this.send = new Spy();
+				this.abort = new Spy();
+				this.open = new Spy();
+				this.setRequestHeader = new Spy();
 			};
 			MockXHR.DONE = 4;
 			Request.setXHR(MockXHR);
@@ -20,8 +20,8 @@ module.exports = {
 
 
 		it('should fire success if successful', function(expect) {
-			var spy = new Spy;
-			var r = new Request({ 
+			var spy = new Spy();
+			var r = new Request({
 				url: 'http://x.com',
 				onSuccess: spy
 			});
@@ -32,10 +32,10 @@ module.exports = {
 			r.xhr.onreadystatechange();
 
 			expect(spy.getCallCount()).toBe(1);
-		})
+		});
 
 		it('should fire failure if failed', function(expect) {
-			var spy = new Spy;
+			var spy = new Spy();
 			var r = new Request({
 				url: 'http://x.com',
 				onFailure: spy
@@ -73,6 +73,14 @@ module.exports = {
 
 			expect(r2.xhr.open.getLastArgs()[1]).toBe('http://x.com/?a=1&foo=bar');
 		});
+
+        it('should have default headers', function(expect) {
+            var r = new Request({ url: '/' });
+            expect(r.options.headers['X-Requested-With']).toBe('XMLHttpRequest');
+            
+            r.send();
+            expect(r.xhr.setRequestHeader.getCallCount()).toBe(2);
+        });
 	}
 
 };

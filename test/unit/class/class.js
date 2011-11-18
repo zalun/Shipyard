@@ -18,12 +18,12 @@ module.exports = {
 		});
 
 		it('should be an instance Class', function(expect) {
-			var Ex = new Class;
-			var ex = new Ex;
+			var Ex = new Class();
+			var ex = new Ex();
 			expect(ex).toBeAnInstanceOf(Class);
 
 			var It = new Class({ Extends: Ex });
-			var it = new It;
+			var it = new It();
 			expect(it).toBeAnInstanceOf(Class);
 		});
 		
@@ -38,8 +38,8 @@ module.exports = {
 		});
 
 		it('should have a constructor property pointing at its Class', function(expect) {
-			var Ex = new Class;
-			var ex = new Ex;
+			var Ex = new Class();
+			var ex = new Ex();
 			expect(ex.constructor).toBe(Ex);
 		});
 
@@ -48,8 +48,8 @@ module.exports = {
 				list: []
 			});
 			
-			var ex1 = new Example,
-				ex2 = new Example;
+			var ex1 = new Example(),
+				ex2 = new Example();
 
 			ex1.list.push('test');
 
@@ -75,7 +75,7 @@ module.exports = {
 		});
 
 		it('should not call extended class\' initialize method at Extends', function(expect) {
-			var fn = new Spy;
+			var fn = new Spy();
 			var Ex = new Class({
 				initialize: fn
 			});
@@ -113,14 +113,28 @@ module.exports = {
 				a: { two: 2 }
 			});
 
-			var b = new B;
+			var b = new B();
 			expect(b.a.two).toBe(2);
 			expect(b.a.one).toBe(1);
 
-			var a = new A;
+			var a = new A();
 			expect(a.a.one).toBe(1);
 			expect(a.a.two).toBeUndefined();
 		});
+
+        it('should attach deep objects to instance', function(expect) {
+            var A = new Class({
+                b: {
+                    c: {
+                        d: 'e'
+                    }
+                }
+            });
+
+            var a = new A();
+
+            expect(a.b.c.d).toBe('e');
+        });
 		
 		it('should implement mixins', function(expect) {
 			var Mixin = new Class({
@@ -139,7 +153,7 @@ module.exports = {
 
 		it('should have an "implement" static method', function(expect) {
 		
-			var Example = new Class;
+			var Example = new Class();
 			expect(Example.implement).toBeType('function');
 
 			Example.implement('a', function() {
@@ -151,7 +165,7 @@ module.exports = {
 				'c': function(d) { return this.b() + d; }
 			});
 
-			var ex = new Example;
+			var ex = new Example();
 
 			expect(ex.a()).toBe('arm');
 			expect(ex.c('ad')).toBe('bad');
@@ -178,11 +192,11 @@ module.exports = {
 		});
 
 		it('should have local Mutators', function(expect) {
-			var Interface = new Class;
-			Interface.Mutators.Local = function(val) { 
-				this.implement('isLocal', function() { 
-					return !!val; 
-				}); 
+			var Interface = new Class();
+			Interface.Mutators.Local = function(val) {
+				this.implement('isLocal', function() {
+					return !!val;
+				});
 			};
 
 			var Ex = new Class({
@@ -190,14 +204,14 @@ module.exports = {
 				Local: true
 			});
 
-			var ex = new Ex;
+			var ex = new Ex();
 			expect(ex.isLocal).toBeTruthy();
 			expect(ex.isLocal()).toBe(true);
 
 			var Be = new Class({
 				Local: false
 			});
-			var b = new Be;
+			var b = new Be();
 			expect(b.isLocal).toBeUndefined();
 
 		});

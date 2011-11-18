@@ -57,13 +57,26 @@ module.exports = {
 		});
 
 		it('should have getter and setter', function(expect) {
-			var o = new Options;
+			var o = new Options();
 			o.setOptions({ a: 1, b: 2 });
 			o.setOption('c', 5);
 			
 			expect(o.getOption('a')).toBe(1);
 			expect(o.getOption('c')).toBe(5);
 		});
+
+        it('should allow nested options', function(expect) {
+            var o = new Options();
+            o.options = {
+                a: {
+                    b: 'c'
+                }
+            };
+
+            o.setOptions({ d: 'e' });
+
+            expect(o.options.a.b).toBe('c');
+        });
 	}
 	
 };
