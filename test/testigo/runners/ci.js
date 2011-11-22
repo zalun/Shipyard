@@ -122,10 +122,11 @@ var callbacks = {
     }
 };
 
-var CIRunner = module.exports = function(testigo, colors) {
+var CIRunner = module.exports = function(testigo, colors, stack) {
     this.$testigo = testigo;
     this.$buffer = [];
     this.$colors = colors;
+    this.$stack = (stack !== undefined) ? stack : true;
     this.addCallbacks();
 };
 
