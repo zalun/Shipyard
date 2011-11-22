@@ -44,7 +44,7 @@ var exec = function(fn, module) {
             }
         }
     };
-    _req.paths = require.paths;
+    for (var k in require) _req[k] = require[k];
     module.exports = {};
     fn.call(window, _req, module.exports, module, module.filename, module.dirname);
 };
