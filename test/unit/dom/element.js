@@ -55,7 +55,37 @@ module.exports = {
             expect(fn.getCallCount()).toBe(1);
 
         });
+
 	},
+
+    'Element.Traversal': function(it, setup) {
+        
+        setup('beforeEach', function() {
+            dom.$$('body *').dispose();
+        });
+
+        it('should be able to getPrevious by selector', function(expect) {
+            var el1 = new dom.Element('div');
+            var el2 = new dom.Element('span');
+            var el3 = new dom.Element('p');
+
+            dom.document.body.appendChild(el1).appendChild(el2).appendChild(el3);
+
+            expect(el3.getPrevious()).toBe(el2);
+            expect(el3.getPrevious('div')).toBe(el1);
+        });
+
+        it('should be able to getNext by selector', function(expect) {
+            var el1 = new dom.Element('div', { 'class': 'derp' });
+            var el2 = new dom.Element('div', { 'class': 'herp' });
+            var el3 = new dom.Element('div', { id: 'merp' });
+
+            dom.document.body.appendChild(el1).appendChild(el2).appendChild(el3);
+
+            expect(el1.getNext()).toBe(el2);
+            expect(el1.getNext('div#merp')).toBe(el3);
+        });
+    },
 
     'Element.Styles': function(it, setup) {
         it('should be able to setStyle', function(expect) {
