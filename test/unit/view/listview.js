@@ -4,11 +4,11 @@ module.exports = {
 	
 	'ListView': function(it, setup) {
 		it('should know when its empty', function(expect) {
-			var v = new ListView;
+			var v = new ListView();
 			expect(v.isEmpty()).toBe(true);
 
-			var v2 = new ListView({ data: [1] });
-			expect(v2.isEmpty()).toBe(false);
+            v.addItem('test');
+			expect(v.isEmpty()).toBe(false);
 		});
 	}
 
