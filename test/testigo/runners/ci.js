@@ -50,12 +50,13 @@ var callbacks = {
                     } else {
                         this.print('Expected ' + result.matcher + ' ');
                         this.setColor('yellow');
-                        this.print(result.expected);
+                        this.print(String(result.expected));
                         this.setColor();
                         this.print(', got ');
                         this.setColor('yellow');
-                        this.print(result.recieved + '\n');
+                        this.print(String(result.received));
                         this.setColor();
+                        this.print('\n');
                     }
                 }
                 this.print(failDivider);
