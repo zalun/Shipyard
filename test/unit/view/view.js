@@ -21,7 +21,9 @@ module.exports = {
         it('should be able to render', function(expect) {
 			var v = new View({ data: 'test' });
 			delete v.attributes.id;
-			expect(v.render()).toBe('<span>test</span>');
+            var el = v.toElement();
+			expect(el.get('tag')).toBe('span');
+            expect(el.get('text').trim()).toBe('test');
 		});
 
         it('should be able to "set" attributes', function(expect) {
@@ -29,7 +31,7 @@ module.exports = {
             v.set('data-test', 'hey "dude"');
             
             var el = v.toElement();
-            expect(el.get('data-test')).toBe('hey &quot;dude&quot;');
+            expect(el.get('data-test')).toBe('hey "dude"');
         });
 
         it('should set attributes after rendered', function(expect) {

@@ -3,8 +3,8 @@ var View = require('shipyard/view/View'),
     Container = require('shipyard/view/Container'),
     TextFieldView = require('shipyard/view/TextFieldView');
 
-person = new Person({name: 'Sean'});
-whoAreYou = new TextFieldView({ 
+var person = new Person({name: 'Sean'});
+var whoAreYou = new TextFieldView({
     placeholder: 'What is your name',
     id: 'whoAreYou'
 }).bind(person, { value: 'name' });
