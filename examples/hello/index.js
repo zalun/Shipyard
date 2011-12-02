@@ -9,7 +9,7 @@ var whoAreYou = new TextFieldView({
     id: 'whoAreYou'
 }).bind(person, { value: 'name' });
 whoAreYou.attach();
-hello = new Container();
+var hello = new Container();
 hello.addView(new View({data: 'Hello '}));
 hello.addView(new View().bind(person, { data: 'name' }));
 hello.attach();
