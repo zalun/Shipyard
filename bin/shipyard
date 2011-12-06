@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 var program = require('commander'),
 	path = require('path'),
+    env = require('./lib/shipyard/env'),
+    log = require('./lib/shipyard/utils/log'),
 	shipyard = require('../'),
 	builder = require('../scripts/build'),
 	server = require('../scripts/server'),
@@ -10,12 +12,16 @@ var program = require('commander'),
 var dir = process.cwd();
 
 function pushShipyard() {
-    var lib = path.join(shipyard.dirname, shipyard.directories.lib);
-    var testigo = path.join(shipyard.dirname, './test/');
+    if (env.platform.version > '0.4.x') {
+        log.debug('Shipyard not pushed onto path. Must be in node_modules folder to work well.');
+    } else {
+        var lib = path.join(shipyard.dirname, shipyard.directories.lib);
+        var testigo = path.join(shipyard.dirname, './test/');
 
-    //TODO: this doesn't work in Node 0.5+
-    require.paths.unshift(testigo);
-    require.paths.unshift(lib);
+        //TODO: this doesn't work in Node 0.5+
+        require.paths.unshift(testigo);
+        require.paths.unshift(lib);
+    }
 }
 
 program
