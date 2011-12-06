@@ -1,4 +1,4 @@
-var sys = require('sys'),
+var sys = require('util'),
     print = sys.print;
 
 var failures = [];
