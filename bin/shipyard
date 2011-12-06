@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 var program = require('commander'),
     path = require('path'),
-    env = require('./lib/shipyard/env'),
-    log = require('./lib/shipyard/utils/log'),
+    env = require('../lib/shipyard/env'),
+    log = require('../lib/shipyard/utils/log'),
     shipyard = require('../'),
     builder = require('../scripts/build'),
     server = require('../scripts/server'),
