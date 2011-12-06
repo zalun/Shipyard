@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 var program = require('commander'),
-	path = require('path'),
+    path = require('path'),
     env = require('./lib/shipyard/env'),
     log = require('./lib/shipyard/utils/log'),
-	shipyard = require('../'),
-	builder = require('../scripts/build'),
-	server = require('../scripts/server'),
+    shipyard = require('../'),
+    builder = require('../scripts/build'),
+    server = require('../scripts/server'),
     shell = require('../scripts/shell').shell,
-	test = require('../scripts/test');
+    test = require('../scripts/test');
 
 var dir = process.cwd();
 
@@ -25,51 +25,51 @@ function pushShipyard() {
 }
 
 program
-	.version(shipyard.version)
-	.option('-d, --dir <dir>', 'choose different directory', function(d) {
-		dir = path.join(dir, d);
-	})
+    .version(shipyard.version)
+    .option('-d, --dir <dir>', 'choose different directory', function(d) {
+        dir = path.join(dir, d);
+    })
     .option('-r, --require', 'include mini require')
     .option('-m, --minify', 'force a minify')
-	.option('-M, --non-minify', 'do not minify');
+    .option('-M, --non-minify', 'do not minify');
 
 program
-	.command('build [dest]')
-	.description('Compress app into a single file')
+    .command('build [dest]')
+    .description('Compress app into a single file')
     .action(function(dest) {
-		builder.compile(dir, dest, {
+        builder.compile(dir, dest, {
             force_minify: this.minify,
             no_minify: this.nonMinify,
             mini_require: this.require
         });
-	});
+    });
 
 program
-	.command('test')
-	.description('Run your app\'s test suite')
-	.action(function() {
-		var pack = shipyard.loadPackage(dir);
-		var tests = path.join(dir, pack.shipyard.test);
+    .command('test')
+    .description('Run your app\'s test suite')
+    .action(function() {
+        var pack = shipyard.loadPackage(dir);
+        var tests = path.join(dir, pack.shipyard.test);
 
         pushShipyard();
 
-		var cases = test.load(tests, program.args);
-		test.run(cases);
-	});
+        var cases = test.load(tests, program.args);
+        test.run(cases);
+    });
 
 program
-	.command('server')
-	.description('Run a simple server')
-	.action(function() {
-		server.serve(dir);
-	});
+    .command('server')
+    .description('Run a simple server')
+    .action(function() {
+        server.serve(dir);
+    });
 
 program
-	.command('new <name>')
-	.description('Generate a new app')
-	.action(function(name) {
-		console.log('generating %s', name);
-	});
+    .command('new <name>')
+    .description('Generate a new app')
+    .action(function(name) {
+        console.log('generating %s', name);
+    });
 
 program
     .command('shell')
@@ -81,5 +81,5 @@ program
 
 program.parse(process.argv);
 if (process.argv.length == 2) {
-	program.emit('help');
+    program.emit('help');
 }
