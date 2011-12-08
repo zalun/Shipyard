@@ -98,5 +98,14 @@ module.exports = {
             expect(fn.getCallCount()).toBe(1);
         });
 
+        it('should not stack multiple times of the function', function(expect) {
+            var fn = new Spy();
+            this.E.addListener('spy', fn);
+            this.E.addListener('spy', fn);
+
+            this.E.emit('spy');
+            expect(fn.getCallCount()).toBe(1);
+        });
+
 	}
 };
