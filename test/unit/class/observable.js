@@ -69,5 +69,32 @@ module.exports = {
             expect(spy.getCallCount()).toBe(1);
             expect(spy.getLastArgs()).toBeLike(['moe', 'baz']);
         });
+
+		it('should be able to set compuated properties', function(expect) {
+			var Ex = new Class({
+				Extends: Observable,
+				bar: Observable.property(function(value) {
+					if (arguments.length > 0) {
+						//setter
+						this.set('foo', value);
+					} else {
+						//getter
+						return this.get('foo');
+					}
+				}, 'foo')
+			});
+
+			var ex = new Ex({ foo: 'baz' });
+			var fooSpy = new Spy();
+			var barSpy = new Spy();
+
+			ex.observe('foo', fooSpy);
+			ex.observe('bar', barSpy);
+			ex.set('bar', 'derp');
+
+			expect(ex.get('foo')).toBe('derp');
+			expect(fooSpy.getCallCount()).toBe(1);
+			expect(barSpy.getCallCount()).toBeTruthy();
+		});
     }
 };
