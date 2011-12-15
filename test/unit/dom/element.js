@@ -56,6 +56,14 @@ module.exports = {
 
         });
 
+		it('should be cloneable', function(expect) {
+			var el = new dom.Element('div', { 'class': 'me' });
+			var clone = el.clone();
+
+			expect(el).not.toBe(clone);
+			expect(clone.hasClass('me')).toBe(true);
+		});
+
 	},
 
     'Element.Traversal': function(it, setup) {
