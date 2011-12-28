@@ -247,6 +247,7 @@ function main_require(main) {
 			}
 		}
 	}
+	require.paths.unshift(main);
 	require(main);
 }
 
