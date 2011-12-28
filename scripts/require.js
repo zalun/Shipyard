@@ -1,9 +1,10 @@
+/*globals window, document, XMLHttpRequest, ActiveXObject*/
 (function(){
 
 function RequireError(msg) {
     this.message = msg;
 }
-RequireError.prototype = new Error;
+RequireError.prototype = new Error();
 
 var XHR = function(){
     try { return new XMLHttpRequest(); } catch(e){}
@@ -13,24 +14,20 @@ var XHR = function(){
 
 var nonce = + new Date();
 var load = function(path){
-    if (path in load._cache) return load._cache[path];
+    if (path in load._cache) {
+		return load._cache[path];
+	}
     var result = false;
     var xhr = XHR();
     xhr.open('GET', path + '?d=' + nonce, false);
     xhr.send(null);
-    if (xhr.status >= 200 && xhr.status < 300) result = xhr.responseText;
+    if (xhr.status >= 200 && xhr.status < 300) {
+		result = xhr.responseText;
+	}
 
     return load._cache[path] = result;
 };
 load._cache = {};
-
-var compile = function(module, contents) {
-    module.exports = {};
-    var fn = new Function('require, exports, module, __filename, __dirname', contents)
-    require.paths.unshift(module.dirname);
-    exec(fn, module);
-    require.paths.shift();
-};
 
 var exec = function(fn, module) {
     var _req = function(id) {
@@ -44,17 +41,31 @@ var exec = function(fn, module) {
             }
         }
     };
-    for (var k in require) _req[k] = require[k];
+    for (var k in require) {
+		_req[k] = require[k];
+	}
     module.exports = {};
     fn.call(window, _req, module.exports, module, module.filename, module.dirname);
 };
 
+var compile = function(module, contents) {
+    module.exports = {};
+    var fn = new Function('require, exports, module, __filename, __dirname', contents);
+    require.paths.unshift(module.dirname);
+    exec(fn, module);
+    require.paths.shift();
+};
+
 var normalize = function(base, path){
-    if (path[0] == '/') base = '';
+    if (path[0] === '/') {
+		base = '';
+	}
     path = path.split('/').reverse();
     base = base.split('/');
     var last = base.pop();
-    if (last && !(/\.[A-Za-z0-9_-]+$/).test(last)) base.push(last);
+    if (last && !(/\.[A-Za-z0-9_\-]+$/).test(last)) {
+		base.push(last);
+	}
     var i = path.length;
     while (i--){
         var current = path[i];
@@ -79,15 +90,18 @@ var basename = function(filename) {
 
 var extname = function(filename) {
     var base = basename(filename);
-    if (base.indexOf('.') > -1)
+    if (base.indexOf('.') > -1) {
         return '.' + base.split('.').pop();
+	}
 };
 
 
 var MODULES = (window.define && window.define.modules) || {};
 
 var tryFile = function(path) {
-    if (require._load(path)) return path;
+    if (require._load(path)) {
+		return path;
+	}
     return false;
 };
 
@@ -104,20 +118,24 @@ var tryExtensions = function(path, exts) {
 
 var define = function(id, deps, factory) {
     MODULES[id] = factory;
-}
+};
 define.modules = MODULES;
 
 var require = function shipyard_require(id, path){
-    if (path) require.paths.unshift(path);
+    if (path) {
+		require.paths.unshift(path);
+	}
     var contents = false,
         filename,
         ext = extname(id),
         base = '',
         paths = (id[0] === '/') ? [''] : require.paths,
         trailingSlash = (id.slice(-1) === '/'),
-        isRelative = id.charAt(0) == '.';
+        isRelative = id.charAt(0) === '.';
 
-    if (trailingSlash) id = id.slice(0, -1);
+    if (trailingSlash) {
+		id = id.slice(0, -1);
+	}
     var module = MODULES[id];
     
 
@@ -131,11 +149,11 @@ var require = function shipyard_require(id, path){
             } else {
                 // check path versus id
                 // `/lib/shipyard` vs `shipyard/class/Class`
-                var poppedPath = paths[i].split('/')
+                var poppedPath = paths[i].split('/'),
                     pathEnd = poppedPath.pop(),
                     idStart = id.split('/').shift();
                 
-                if (pathEnd == idStart) {
+                if (pathEnd === idStart) {
                     base = normalize(poppedPath.join('/'), id);
                 } else {
                     continue;
@@ -143,7 +161,9 @@ var require = function shipyard_require(id, path){
             }
 
             module = MODULES[base];
-            if(module)  break;
+            if(module) {
+				break;
+			}
             
             //1. tryFile
             //2. tryExtensions
@@ -167,7 +187,9 @@ var require = function shipyard_require(id, path){
             if (filename !== false) {
                 module = { filename: filename, dirname: dirname(filename) };
                 ext = extname(filename) || '.js';
-                if (!require.extensions[ext]) ext = '.js'
+                if (!require.extensions[ext]) {
+					ext = '.js';
+				}
                 require.extensions[ext](module, filename);
                 MODULES[base] = module;
                 break;
@@ -180,8 +202,12 @@ var require = function shipyard_require(id, path){
             return orig;
         }
     }
-    if (!module) throw new RequireError('Cannot find module "' + id + '"');
-    if (path) require.paths.shift();
+    if (!module) {
+		throw new RequireError('Cannot find module "' + id + '"');
+	}
+    if (path) {
+		require.paths.shift();
+	}
     if (typeof module === 'function') {
         var factory = module;
         module = { filename: id, dirname: dirname(id) };
@@ -204,11 +230,28 @@ require._load = load;
 require._compile = compile;
 require.paths = [window.location.pathname];
 
+function main_require(main) {
+	var package_ = normalize(main, 'package.json');
+	var json = load(package_);
+	if (json) {
+		json = JSON.parse(json);
+		var deps = json.shipyard && json.shipyard.dependencies;
+		if (deps) {
+			for (var key in deps) {
+				require.paths.unshift(normalize(package_, deps[key]));
+			}
+		}
+	}
+	require(main);
+}
 
-if (window.require)
+
+if (window.require) {
     require.original = window.require;
-if (window.define)
+}
+if (window.define) {
     define.original = window.define;
+}
 
 window.require = require;
 window.define = define;
@@ -219,7 +262,9 @@ var scripts = document.getElementsByTagName('script'),
 for (var i = 0, length = scripts.length; i < length; i++) {
     var script = scripts[i],
         src = script.getAttribute('src');
-    if (!src) continue;
+    if (!src) {
+		continue;
+	}
 
     if ((src.indexOf('require.js') >= 0) && (main = script.getAttribute('data-main'))) {
         var maindir = dirname(main),
@@ -233,7 +278,7 @@ for (var i = 0, length = scripts.length; i < length; i++) {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
-    require(main);
+    main_require(main);
 }, false);
 
 })();
