@@ -125,6 +125,11 @@ var require = function shipyard_require(id, path){
     if (path) {
 		require.paths.unshift(path);
 	}
+	
+	if (Array.isArray(id)) {
+		id = id[0];
+	}
+
     var contents = false,
         filename,
         ext = extname(id),
