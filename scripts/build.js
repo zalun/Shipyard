@@ -27,15 +27,20 @@ exports.compile = function(appDir, dest, options) {
 		roots = [dir];
 	
 	if (meta.dependencies) {
-		object.forEach(meta.dependencies, function(path, name) {
-			roots.push(path.join(appDir, path));
+		object.forEach(meta.dependencies, function(loc, name) {
+            loc = loc.replace(name, '');
+			roots.push(path.join(appDir, loc));
 		});
 	}
 	roots.push(shipyardDir);
 
-console.log('Roots: ', roots);
+    // Ignores to quite the log messages
+    var ignores = meta.ignore || [];
+    ignores.push('jsdom');
+
     var project = copy.createCommonJsProject({
-        roots: roots
+        roots: roots,
+        ignoreErrors: ignores
     });
 
     var build = copy.createDataObject();
