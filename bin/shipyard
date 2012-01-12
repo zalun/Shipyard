@@ -3,6 +3,7 @@ var program = require('commander'),
     path = require('path'),
     env = require('../lib/shipyard/env'),
     log = require('../lib/shipyard/utils/log'),
+    type = require('../lib/shipyard/utils/type'),
     shipyard = require('../'),
     builder = require('../scripts/build'),
     server = require('../scripts/server'),
@@ -53,9 +54,7 @@ program
 
         pushShipyard();
 
-        var args = program.args.map(function(arg) {
-            return arg.name;
-        });
+        var args = program.args.filter(type.isString);
 
         var cases = test.load(tests, args);
         test.run(cases);
