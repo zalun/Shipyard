@@ -11,6 +11,8 @@ var program = require('commander'),
 
 var dir = process.cwd();
 
+console.log(process.argv);
+
 function pushShipyard() {
     if (env.platform.version > '0.4.x') {
         log.debug('Shipyard not pushed onto path. Must be in node_modules folder to work well.');
@@ -53,7 +55,11 @@ program
 
         pushShipyard();
 
-        var cases = test.load(tests, program.args);
+        var args = program.args.map(function(arg) {
+            return arg.name;
+        });
+
+        var cases = test.load(tests, args);
         test.run(cases);
     });
 
