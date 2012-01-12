@@ -30,7 +30,7 @@ exports.load = function load(dir, casesArgs, prefix) {
     }
     casesArgs.forEach(function(val) {
         var _p = path.join(dir, val);
-        if (fs.statSync(_p).isFile()) {
+        if (path.existsSync(_p) && fs.statSync(_p).isFile()) {
             cases.push(namespace(prefix, require(_p)));
         } else {
             var _prefix = (prefix ? prefix+': ' : '') + val;
