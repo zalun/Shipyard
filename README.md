@@ -49,6 +49,11 @@ Getting Started
 3. `shipyard test`
 4. Woo!
 
+Afterwards, to use it with one of your apps, especially when running
+tests, you'll want to add the path to Shipyard/lib to your `NODE_PATH`,
+since node 0.6 removed the ability for me to push onto the path with
+code.
+
 How to use
 ----------
 
