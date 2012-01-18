@@ -284,6 +284,10 @@ module.exports = {
 	
 	'$$': function(it, setup) {
 		
+		setup('beforeEach', function() {
+			dom.document.body.empty();
+		});
+
 		it('should return Elements', function(expect) {
 			var els = dom.$$('body');
 			expect(els).toBeAnInstanceOf(dom.Elements);
@@ -303,7 +307,31 @@ module.exports = {
             els.dispose();
 
             expect(dom.$$('.'+className).length).toBe(0);
-        })
+        });
+
+		it('should accept multiple arguments', function(expect) {
+			dom.document.body.appendChild(new dom.Element('div'));
+			dom.document.body.appendChild(new dom.Element('p'));
+
+			expect(dom.$$('div', 'p').length).toBe(2);
+		});
+
+		it('should accept an array as an argument', function(expect) {
+			dom.document.body.appendChild(new dom.Element('div'));
+			dom.document.body.appendChild(new dom.Element('p'));
+
+			expect(dom.$$(['div', 'p']).length).toBe(2);
+		});
+
+		it('should accept an Elements object as an argument', function(expect) {
+			dom.document.body.appendChild(new dom.Element('div'));
+			dom.document.body.appendChild(new dom.Element('p'));
+			dom.document.body.appendChild(new dom.Element('h1'));
+
+			var els = dom.$$('div', 'p');
+
+			expect(dom.$$(els, 'h1').length).toBe(3);
+		});
 
 	}
 
