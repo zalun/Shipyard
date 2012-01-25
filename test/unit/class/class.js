@@ -74,6 +74,25 @@ module.exports = {
 			expect(ex.constructor).toBe(BetterExample);
 		});
 
+		it('should give a meaningful error if Extends is not a Class', function(expect) {
+			var A;
+			var B = {};
+			var C = function() {};
+
+			function extend(kls) {
+				try {
+					new Class({ Extends: kls });
+				} catch (err) {
+					return err;
+				}
+			}
+
+			var msg = 'Class must extend from another Class.';
+			expect(extend(A).message).toBe(msg);
+			expect(extend(B).message).toBe(msg);
+			expect(extend(C).message).toBe(msg);
+		});
+
 		it('should not call extended class\' initialize method at Extends', function(expect) {
 			var fn = new Spy();
 			var Ex = new Class({
