@@ -43,8 +43,10 @@ exports.load = function load(dir, casesArgs, prefix) {
 };
 
 exports.run = function(cases) {
-    var suite = new Testigo(),
-        runner = new Testigo.Runners.CI(suite, true);
+    var suite = new Testigo();
+
+    var runner = new Testigo.Runners.CI(suite, true);
+	//var runner = new Testigo.Runners.Simple('node', suite);
 
     cases.forEach(function(testCase) {
         for (var description  in testCase) {

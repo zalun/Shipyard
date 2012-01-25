@@ -88,9 +88,9 @@ module.exports = {
 			MockSyncable.addEvent('foo', classSpy);
 
 			var s = new MockSyncable;
-			s.addEvent('foo', instSpy);
+			s.addListener('foo', instSpy);
 
-			s.fireEvent('foo');
+			s.emit('foo');
 			
 			expect(instSpy.getCallCount()).toBe(1);
 			expect(classSpy.getCallCount()).toBe(1);

@@ -1,25 +1,14 @@
 var Request = require('../../lib/shipyard/http/Request'),
+	mockXHR = require('../../lib/shipyard/test/mockXHR'),
 	Spy = require('../testigo/lib/spy').Spy;
 
 
 module.exports = {
 	
 	'Request': function(it, setup) {
-		var MockXHR;
-		
-		setup('beforeEach', function() {
-			MockXHR = function() {
-				this.send = new Spy();
-				this.abort = new Spy();
-				this.open = new Spy();
-				this.setRequestHeader = new Spy();
-			};
-			MockXHR.DONE = 4;
-			Request.setXHR(MockXHR);
-		});
-
 
 		it('should fire success if successful', function(expect) {
+			mockXHR('ok', 200);
 			var spy = new Spy();
 			var r = new Request({
 				url: 'http://x.com',
@@ -27,14 +16,12 @@ module.exports = {
 			});
 
 			r.send();
-			r.xhr.status = 200;
-			r.xhr.readyState = MockXHR.DONE;
-			r.xhr.onreadystatechange();
 
 			expect(spy.getCallCount()).toBe(1);
 		});
 
 		it('should fire failure if failed', function(expect) {
+			mockXHR('error', 404);
 			var spy = new Spy();
 			var r = new Request({
 				url: 'http://x.com',
@@ -42,14 +29,13 @@ module.exports = {
 			});
 
 			r.send();
-			r.xhr.status = 404;
-			r.xhr.readyState = MockXHR.DONE;
-			r.xhr.onreadystatechange();
 
 			expect(spy.getCallCount()).toBe(1);
 		});
 
 		it('should send data as query string when GET', function(expect) {
+			mockXHR('whatever');
+			mockXHR('dontcare');
 			var r = new Request({
 				url: 'http://x.com',
 				method: 'get',
@@ -75,6 +61,7 @@ module.exports = {
 		});
 
         it('should have default headers', function(expect) {
+			mockXHR('mock');
             var r = new Request({ url: '/' });
             expect(r.options.headers['X-Requested-With']).toBe('XMLHttpRequest');
             

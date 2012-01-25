@@ -76,7 +76,9 @@ var callbacks = {
         ].join(''));
 
 		if (!success && typeof process !== 'undefined') {
-			process.exit(1);
+			process.nextTick(function() {
+				process.exit(1);
+			});
 		}
     },
 
