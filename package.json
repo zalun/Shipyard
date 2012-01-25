@@ -17,8 +17,7 @@
     "node": "0.6.x"
   },
   "scripts": {
-	"install": "npm link",
-	"test": "shipyard test"
+	"test": "node ./bin/shipyard test"
   },
   "dependencies": { 
 	"jsdom": "~0.2.0",
