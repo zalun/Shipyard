@@ -1,4 +1,5 @@
 language: node_js
+script: node ./bin/shipyard test
 node_js:
     - 0.4
     - 0.6
