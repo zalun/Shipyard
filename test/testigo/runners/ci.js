@@ -74,6 +74,10 @@ var callbacks = {
         this.print([
             ' (Passed: ', results.tests.passes, ', Failed: ', results.tests.failures, ')\n'
         ].join(''));
+
+		if (!success && typeof process !== 'undefined') {
+			process.exit(1);
+		}
     },
 
     beforeSuite: function(suite, count){

@@ -43,16 +43,16 @@ exports.load = function load(dir, casesArgs, prefix) {
 };
 
 exports.run = function(cases) {
-    var Suite = new Testigo(),
-        Runner = new Testigo.Runners.CI(Suite, true);
+    var suite = new Testigo(),
+        runner = new Testigo.Runners.CI(suite, true);
 
     cases.forEach(function(testCase) {
         for (var description  in testCase) {
-            Suite.describe(description, testCase[description]);
+            suite.describe(description, testCase[description]);
         }
     });
 
-    Runner.run();
+    runner.run();
 };
 
 if (require.main === module) {

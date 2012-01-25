@@ -16,6 +16,9 @@
   "engines": {
     "node": "0.6.x"
   },
+  "scripts": {
+	"test": "shipyard test"
+  },
   "dependencies": { 
 	"jsdom": "~0.2.0",
 	"dryice": "git://github.com/seanmonstar/dryice.git",
