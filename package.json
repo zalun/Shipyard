@@ -17,6 +17,7 @@
     "node": "0.6.x"
   },
   "scripts": {
+	"install": "npm link",
 	"test": "shipyard test"
   },
   "dependencies": { 
