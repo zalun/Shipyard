@@ -1,0 +1,9 @@
+{
+	"name": "{name}",
+	"shipyard": {
+		"app": "./",
+		"mini_require": true,
+		"test": "./tests",
+		"target": "../{name}-min.js"
+	}
+}

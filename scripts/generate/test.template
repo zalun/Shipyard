@@ -1,0 +1,12 @@
+var {model} = require('../../models/{model}');
+
+module.exports = {
+
+	'{model}': function(it, setup) {
+		it('should have a String representation', function(expect) {
+			var foo = new {model}();
+			expect(String(foo)).toBe('[object {model}]');
+		});
+	}
+
+};

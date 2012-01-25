@@ -1,0 +1,9 @@
+<!doctype html>
+<html>
+	<head>
+		<title>{name}</title>
+		<script type="text/javascript" data-main="./" src=""></script>
+	</head>
+	<body>
+	</body>
+</html>

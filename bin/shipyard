@@ -7,8 +7,14 @@ var program = require('commander'),
     shipyard = require('../'),
     builder = require('../scripts/build'),
     server = require('../scripts/server'),
+    generate = require('../scripts/generate'),
     shell = require('../scripts/shell').shell,
     test = require('../scripts/test');
+
+process.on('uncaughtException', function(e) {
+    console.error(String(e)); 
+    process.exit(1);
+});
 
 var dir = process.cwd();
 
@@ -68,11 +74,10 @@ program
     });
 
 program
-    .command('new <name>')
+    .command('startapp <name>')
     .description('Generate a new app')
     .action(function(name) {
-        log.warn('not implemented yet');
-        log.debug('generating %s', name);
+        generate.app(name, dir);
     });
 
 program

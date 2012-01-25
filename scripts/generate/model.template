@@ -1,0 +1,20 @@
+var Class = require('shipyard/class/Class'),
+	Model = require('shipyard/model/Model'),
+	fields = require('shipyard/model/fields');
+
+module.exports = new Class({
+	
+	Extends: Model,
+
+	fields: \{
+		id: fields.NumberField()
+	},
+
+	toString: function toString() {
+		//TODO: Some Views will convert models into their String versions 
+		//by default, so it would be best to return the name or title of 
+		//the instance. ex: return this.get('title');
+		return '[object {name}]';
+	}
+
+});
